@@ -1,0 +1,136 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link hhref="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin-top: 20px;
+        }
+
+        ._tabs {
+            margin-top: 40px;
+        }
+
+        .tab-pane {
+            padding-top: 20px;
+            background-color: white;
+        }
+
+        .panel-body > ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .panel-body > ul > li {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+                .panel-body > ul > li > a {
+                    display: block;
+                    padding: 8px 0;
+                    font-weight: 600;
+                    font-size: 11px;
+                    color: #777777;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                }
+
+        /*css butao redondo*/
+
+        .separator {
+            border-right: 1px solid #dfdfe0;
+        }
+
+        .icon-btn-save {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .btn-save-label {
+            position: relative;
+            left: -12px;
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(0,0,0,0.15);
+            border-radius: 3px 0 0 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+
+            </div>
+            <div class="col-sm-8">
+                <div class="col-sm-6 col-md-8">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <span class="glyphicon glyphicon-th"></span>
+                                Login
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-8 col-md-8 col-sm-offset-2">
+                                    Insira as suas credenciais.
+                                    @using (Html.BeginForm("Login", "Account"))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" }) <br />
+                                        <br />
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><span class="glyphicon glyphicon-log-in"></span></div>
+                                                <input type="text" class="form-control" name="Username" placeholder="Username" required><br />
+                                                @Html.ValidationMessage("Username", "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><span class="glyphicon glyphicon-log-in"></span></div>
+                                                <input type="password" class="form-control" name="Pass" placeholder="Password" required><br />
+                                                @Html.ValidationMessage("Pass", "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                            <div class="panel-footer">
+                                                <div class="row">
+                                                    <div class="col-sm-6 col-lg-offset-3">
+                                                        <button class="btn icon-btn-save btn-success" type="submit">
+                                                            <span class="btn-save-label"><i class="glyphicon glyphicon-log-in"></i></span>Entrar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div>
+        @Html.ActionLink("Regressar à pagina inicial", "Index", "Home")
+    </div>
+
+</body>
+</html>

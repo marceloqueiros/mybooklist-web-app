@@ -1,0 +1,471 @@
+﻿@model IEnumerable<MyBookList.Models.Utilizador>
+<br />
+<style>
+    .onoffswitch {
+        position: relative;
+        width: 90px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+
+    .onoffswitch-checkbox {
+        display: none;
+    }
+
+    .onoffswitch-label {
+        display: block;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid #999999;
+        border-radius: 20px;
+    }
+
+    .onoffswitch-inner {
+        display: block;
+        width: 200%;
+        margin-left: -100%;
+        -moz-transition: margin 0.3s ease-in 0s;
+        -webkit-transition: margin 0.3s ease-in 0s;
+        -o-transition: margin 0.3s ease-in 0s;
+        transition: margin 0.3s ease-in 0s;
+    }
+
+        .onoffswitch-inner:before, .onoffswitch-inner:after {
+            display: block;
+            float: left;
+            width: 50%;
+            height: 30px;
+            padding: 0;
+            line-height: 30px;
+            font-size: 14px;
+            color: white;
+            font-family: Trebuchet, Arial, sans-serif;
+            font-weight: bold;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .onoffswitch-inner:before {
+            content: "Sim";
+            padding-left: 10px;
+            background-color: #2FCCFF;
+            color: #FFFFFF;
+        }
+
+        .onoffswitch-inner:after {
+            content: "Não";
+            padding-right: 10px;
+            background-color: #EEEEEE;
+            color: #999999;
+            text-align: right;
+        }
+
+    .onoffswitch-switch {
+        display: block;
+        width: 18px;
+        margin: 6px;
+        background: #FFFFFF;
+        border: 2px solid #999999;
+        border-radius: 20px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 56px;
+        -moz-transition: all 0.3s ease-in 0s;
+        -webkit-transition: all 0.3s ease-in 0s;
+        -o-transition: all 0.3s ease-in 0s;
+        transition: all 0.3s ease-in 0s;
+    }
+
+    .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+        margin-left: 0;
+    }
+
+    .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+        right: 0px;
+    }
+
+
+    .onoffswitch4 {
+        position: relative;
+        width: 90px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+
+    .onoffswitch4-checkbox {
+        display: none;
+    }
+
+    .onoffswitch4-label {
+        display: block;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid #27A1CA;
+        border-radius: 0px;
+    }
+
+    .onoffswitch4-inner {
+        display: block;
+        width: 200%;
+        margin-left: -100%;
+        -moz-transition: margin 0.3s ease-in 0s;
+        -webkit-transition: margin 0.3s ease-in 0s;
+        -o-transition: margin 0.3s ease-in 0s;
+        transition: margin 0.3s ease-in 0s;
+    }
+
+        .onoffswitch4-inner:before, .onoffswitch4-inner:after {
+            display: block;
+            float: left;
+            width: 50%;
+            height: 30px;
+            padding: 0;
+            line-height: 26px;
+            font-size: 14px;
+            color: white;
+            font-family: Trebuchet, Arial, sans-serif;
+            font-weight: bold;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .onoffswitch4-inner:before {
+            content: "Yes";
+            padding-left: 10px;
+            background-color: #FFFFFF;
+            color: #27A1CA;
+        }
+
+        .onoffswitch4-inner:after {
+            content: "No";
+            padding-right: 10px;
+            background-color: #FFFFFF;
+            color: #666666;
+            text-align: right;
+        }
+
+    .onoffswitch4-switch {
+        display: block;
+        width: 25px;
+        margin: 0px;
+        background: #27A1CA;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 65px;
+        -moz-transition: all 0.3s ease-in 0s;
+        -webkit-transition: all 0.3s ease-in 0s;
+        -o-transition: all 0.3s ease-in 0s;
+        transition: all 0.3s ease-in 0s;
+    }
+
+    .onoffswitch4-checkbox:checked + .onoffswitch4-label .onoffswitch4-inner {
+        margin-left: 0;
+    }
+
+    .onoffswitch4-checkbox:checked + .onoffswitch4-label .onoffswitch4-switch {
+        right: 0px;
+    }
+
+
+
+    .cmn-toggle {
+        position: absolute;
+        margin-left: -9999px;
+        visibility: hidden;
+    }
+
+        .cmn-toggle + label {
+            display: block;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+    input.cmn-toggle-round-flat + label {
+        padding: 2px;
+        width: 75px;
+        height: 30px;
+        background-color: #dddddd;
+        -webkit-border-radius: 60px;
+        -moz-border-radius: 60px;
+        -ms-border-radius: 60px;
+        -o-border-radius: 60px;
+        border-radius: 60px;
+        -webkit-transition: background 0.4s;
+        -moz-transition: background 0.4s;
+        -o-transition: background 0.4s;
+        transition: background 0.4s;
+    }
+
+        input.cmn-toggle-round-flat + label:before, input.cmn-toggle-round-flat + label:after {
+            display: block;
+            position: absolute;
+            content: "";
+        }
+
+        input.cmn-toggle-round-flat + label:before {
+            top: 2px;
+            left: 2px;
+            bottom: 2px;
+            right: 2px;
+            background-color: #fff;
+            -webkit-border-radius: 60px;
+            -moz-border-radius: 60px;
+            -ms-border-radius: 60px;
+            -o-border-radius: 60px;
+            border-radius: 60px;
+            -webkit-transition: background 0.4s;
+            -moz-transition: background 0.4s;
+            -o-transition: background 0.4s;
+            transition: background 0.4s;
+        }
+
+        input.cmn-toggle-round-flat + label:after {
+            top: 4px;
+            left: 4px;
+            bottom: 4px;
+            width: 22px;
+            background-color: #dddddd;
+            -webkit-border-radius: 52px;
+            -moz-border-radius: 52px;
+            -ms-border-radius: 52px;
+            -o-border-radius: 52px;
+            border-radius: 52px;
+            -webkit-transition: margin 0.4s, background 0.4s;
+            -moz-transition: margin 0.4s, background 0.4s;
+            -o-transition: margin 0.4s, background 0.4s;
+            transition: margin 0.4s, background 0.4s;
+        }
+
+    input.cmn-toggle-round-flat:checked + label {
+        background-color: #27A1CA;
+    }
+
+        input.cmn-toggle-round-flat:checked + label:after {
+            margin-left: 45px;
+            background-color: #27A1CA;
+        }
+
+
+    #hearts {
+        color: #ee8b2d;
+    }
+
+    #hearts-existing {
+        color: #ee8b2d;
+    }
+
+    #estrelasreadonly{
+        pointer-events: none;
+    }
+</style>
+
+<h2><strong>Lista de Utilizadores</strong></h2>
+
+
+        <table class="table">
+            <tr>
+                <th>
+                    Fotografia
+                </th>
+                <th>
+                    Username
+                </th>
+                <th>
+                    FeedBack
+                </th>
+                <th>
+                    Estado
+                </th>
+                <th>
+                    Bloqueado
+                </th>
+            </tr>
+            @foreach (var item in Model)
+                {
+                    var imgName = "/Content/Imagens/Users/" + @item.ID_Utilizador + ".jpg";
+                    var imgName1 = "/Content/Imagens/Users/" + @item.ID_Utilizador + ".png";
+                    var imgName2 = "/Content/Imagens/Users/" + @item.ID_Utilizador + ".jpeg";
+                    int valor = Convert.ToInt32(item.Feedback);
+                    var imgNamet = Server.MapPath("/Content/Imagens/Users/" + @item.ID_Utilizador + ".jpg");
+                    var imgName1t = Server.MapPath("/Content/Imagens/Users/" + @item.ID_Utilizador + ".png");
+                    var imgName2t = Server.MapPath("/Content/Imagens/Users/" + @item.ID_Utilizador + ".jpeg");
+                    if (System.IO.File.Exists(imgName1t)) imgName = imgName1;
+                    if (System.IO.File.Exists(imgName2t)) imgName = imgName2;
+                    if (!System.IO.File.Exists(imgNamet)) imgName = "/Content/Imagens/Users/defaultUser.png";
+                <tr>
+                    <td>
+                        <a class="pull-left" href="#"><img class="media-object" style="width:40px;height:40px" src="@imgName" alt=""></a>
+                    </td>
+                    <td>
+                        <a>@item.Username</a>
+                    </td>
+                    <td>
+                        <div id="estrelasreadonly">
+                            <div id="hearts-existing" class="starrr" data-rating='@valor'></div> (@item.Feedback)
+                        </div>
+                    </td>
+                    <td>
+                        @if (item.Estado == 0)
+                        {<h7 style="color:deepskyblue">Aguardar Confirmação</h7> 
+                        }
+                        @if (item.Estado == 1)
+                        {<h7 style="color:green">Ativo</h7>
+                        }
+                        @if (item.Estado == 2)
+                        { <h7 style="color:red">Bloqueado</h7> }
+                    </td>
+                    <td>
+                            <div class="col-md-2">
+                                <div class="onoffswitch4">
+                                    <input type="checkbox" name="onoffswitch4" class="onoffswitch4-checkbox" id="bloquear'@item.ID_Utilizador'" value="@item.ID_Utilizador" checked="@item.Bloqueado">
+                                    <label class="onoffswitch4-label" for="bloquear'@item.ID_Utilizador'">
+                                        <span class="onoffswitch4-inner"></span>
+                                        <span class="onoffswitch4-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+            }
+
+        </table>
+
+        <script>
+            $('input[id^="bloquear"]').change(function () {
+                $.ajax({
+                    type: "Post",
+                    url: "/BackOffice/Bloquear",
+                    data: {
+                        id: $(this).val()
+                    }
+                });
+            });
+
+            var __slice = [].slice;
+
+            (function ($, window) {
+                var Starrr;
+
+                Starrr = (function () {
+                    Starrr.prototype.defaults = {
+                        rating: void 0,
+                        numStars: 5,
+                        change: function (e, value) { }
+                    };
+
+                    function Starrr($el, options) {
+                        var i, _, _ref,
+                          _this = this;
+
+                        this.options = $.extend({}, this.defaults, options);
+                        this.$el = $el;
+                        _ref = this.defaults;
+                        for (i in _ref) {
+                            _ = _ref[i];
+                            if (this.$el.data(i) != null) {
+                                this.options[i] = this.$el.data(i);
+                            }
+                        }
+                        this.createStars();
+                        this.syncRating();
+                        this.$el.on('mouseover.starrr', 'span', function (e) {
+                            return _this.syncRating(_this.$el.find('span').index(e.currentTarget) + 1);
+                        });
+                        this.$el.on('mouseout.starrr', function () {
+                            return _this.syncRating();
+                        });
+                        this.$el.on('click.starrr', 'span', function (e) {
+                            return _this.setRating(_this.$el.find('span').index(e.currentTarget) + 1);
+                        });
+                        this.$el.on('starrr:change', this.options.change);
+                    }
+
+                    Starrr.prototype.createStars = function () {
+                        var _i, _ref, _results;
+
+                        _results = [];
+                        for (_i = 1, _ref = this.options.numStars; 1 <= _ref ? _i <= _ref : _i >= _ref; 1 <= _ref ? _i++ : _i--) {
+                            _results.push(this.$el.append("<span class='glyphicon .glyphicon-star-empty'></span>"));
+                        }
+                        return _results;
+                    };
+
+                    Starrr.prototype.setRating = function (rating) {
+                        if (this.options.rating === rating) {
+                            rating = void 0;
+                        }
+                        this.options.rating = rating;
+                        this.syncRating();
+                        return this.$el.trigger('starrr:change', rating);
+                    };
+
+                    Starrr.prototype.syncRating = function (rating) {
+                        var i, _i, _j, _ref;
+
+                        rating || (rating = this.options.rating);
+                        if (rating) {
+                            for (i = _i = 0, _ref = rating - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+                                this.$el.find('span').eq(i).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+                            }
+                        }
+                        if (rating && rating < 5) {
+                            for (i = _j = rating; rating <= 4 ? _j <= 4 : _j >= 4; i = rating <= 4 ? ++_j : --_j) {
+                                this.$el.find('span').eq(i).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+                            }
+                        }
+                        if (!rating) {
+                            return this.$el.find('span').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+                        }
+                    };
+
+                    return Starrr;
+
+                })();
+                return $.fn.extend({
+                    starrr: function () {
+                        var args, option;
+
+                        option = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+                        return this.each(function () {
+                            var data;
+
+                            data = $(this).data('star-rating');
+                            if (!data) {
+                                $(this).data('star-rating', (data = new Starrr($(this), option)));
+                            }
+                            if (typeof option === 'string') {
+                                return data[option].apply(data, args);
+                            }
+                        });
+                    }
+                });
+            })(window.jQuery, window);
+
+            $(function () {
+                return $(".starrr").starrr();
+            });
+
+            $(document).ready(function () {
+
+                $('#hearts').on('starrr:change', function (e, value) {
+                    $('#count').html(value);
+                });
+
+                $('#hearts-existing').on('starrr:change', function (e, value) {
+                    $('#count-existing').html(value);
+                });
+            });
+        </script>

@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>List user profiles - Bootdey.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            background: #EEEEEE;
+        }
+
+        .user-profile-2 {
+            text-align: center;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .box-info {
+            position: relative;
+            padding: 15px;
+            background: #fff;
+            color: #5b5b5b;
+            margin-bottom: 20px;
+            -webkit-transition: All 0.4s ease;
+            -moz-transition: All 0.4s ease;
+            -o-transition: All 0.4s ease;
+            border-bottom: 4px solid #DDDDDD;
+        }
+
+        .user-profile-2 .header-cover {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            height: 130px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .user-profile-2 .user-profile-inner {
+            z-index: 2;
+            position: relative;
+        }
+
+            .user-profile-2 .user-profile-inner h4.white {
+                color: #fff;
+            }
+
+            .user-profile-2 .user-profile-inner img.profile-avatar {
+                box-shadow: 0 0 0 5px rgba(255,255,255,1);
+                -moz-box-shadow: 0 0 0 5px rgba(255,255,255,1);
+                -webkit-box-shadow: 0 0 0 5px rgba(255,255,255,1);
+                border: none;
+                width: 100px;
+                height: 100px;
+            }
+
+        .user-button {
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <br />
+    <div class="container bootstrap snippet">
+        <div class="col-sm-4">
+            <!-- Begin user profile -->
+            <div class="box-info text-center user-profile-2">
+                <div class="header-cover">
+                    <img src="~/Content/Imagens/blurred-background-2560x1600.jpg" alt="User cover">
+                </div>
+                <div class="user-profile-inner">
+                    <h4 class="white">Ricado Cardoso</h4>
+                    <img src="~/Content/Imagens/Ricardo.jpg" class="img-circle profile-avatar" alt="User avatar">
+                    <h5>Fundador</h5>
+
+                    <!-- User button -->
+                    <div class="user-button">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="mailto:ricardo_cardoso10@hotmail.com">
+                                    <img src="~/Content/Imagens/EnviarMail.jpg" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <!-- Begin user profile -->
+            <div class="box-info text-center user-profile-2">
+                <div class="header-cover">
+                    <img src="~/Content/Imagens/design-de-fundo-desfocado_1107-224.jpg" alt="User cover">
+                </div>
+                <div class="user-profile-inner">
+                    <h4 class="white">Marcelo Pinto</h4>
+                    <img src="~/Content/Imagens/Marcelo.jpg" class="img-circle profile-avatar" alt="User avatar">
+                    <h5>Fundador</h5>
+
+                    <!-- User button -->
+                    <div class="user-button">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="mailto:marceloqueirospinto@hotmail.com">
+                                    <img src="~/Content/Imagens/EnviarMail.jpg" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <!-- Begin user profile -->
+            <div class="box-info text-center user-profile-2">
+                <div class="header-cover">
+                    <img src="~/Content/Imagens/light-pink-blurry-background.jpg" alt="User cover">
+                </div>
+                <div class="user-profile-inner">
+                    <h4 class="white">Tomás Azevedo</h4>
+                    <img src="~/Content/Imagens/Tomás.jpg" class="img-circle profile-avatar" alt="User avatar">
+                    <h5>Fundador</h5>
+
+                    <!-- User button -->
+                    <div class="user-button">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="mailto:josetomasazevedo@hotmail.com">
+                                    <img src="~/Content/Imagens/EnviarMail.jpg" />
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="col-sm-12 text-center">
+        <h2><b>Sobre o Trabalho</b></h2><br />
+        <h4>Trabalho realizado no âmbito da disciplina de Laboratório 4 inserido no plano de estudos da Licenciatura em Engenharia Informática da Universidade de Trás-Os-Montes e Alto Douro.</h4>
+    </div>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    </script>
+</body>
+</html>

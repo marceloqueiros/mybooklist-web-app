@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MyBookList.Models.Livro>
+    <style>.fo{}</style>
+<br />
+<h2>@ViewBag.Nome</h2> 
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#Biblio">Bibliografia</a></li>
+    <li><a data-toggle="tab" href="#Livros">Livros do Autor</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="Biblio" class="tab-pane fade in active">
+    <br />
+    <div class="col-md-8">
+
+        <div class="thumbnail">
+            <img src="@ViewBag.ImagemAutor" style="width:100%">
+        </div><a id="@ViewBag.id" class="fo" href="#">
+            <img src="~/Content/Imagens/Admin/edit-notes.png" width="30" height="35" />
+        </a>
+        <div id="guarda" class="caption">
+            <h4>Biografia:</h4>
+            <p align="left"><h5>@ViewBag.Biografia</h5></p>
+            @if (@ViewBag.Pseudonimo != null)
+            {
+                <p align="left"><h4>Pseudonimo: </h4><h5>@ViewBag.Pseudonimo</h5></p>
+            }
+            <br />
+        </div>
+    </div>
+</div>@*-------------------------------------------------------------------------*@
+    <div id="Livros" class="tab-pane fade">
+        @foreach (var item in Model)
+        {
+            var imgName = "/Content/Imagens/Livros/" + item.ID_Livro + ".jpg";
+            <div class="col-md-3">
+                <div class="thumbnail">
+                    <a href="~/Home/Livro/@item.ID_Livro">
+                        <img width="174" height="270" src="@imgName" class="attachment-post-thumbnail size-post-thumbnail wp-post-image hoverZoomLink" alt="Ver detalhes Livro - Autor" style="width:100%">
+                        <div class="caption">
+                            <p><p align="center"><h8>@item.Titulo - @*@item.Escreve.Autor.Nome*@</h8></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>@*-------------------------------------------------------------------------*@
+</div>
+
+<script>  $('.fo').click(function (e) {
+      $.ajax({
+          url: "/BackOffice/Eautor",
+          data: {
+              idd: $(this).attr('id')
+          },
+          success: function (response) {
+              $('#guarda').html(response); // ATUALIZAR O TARGET
+          }
+      });
+  });</script>

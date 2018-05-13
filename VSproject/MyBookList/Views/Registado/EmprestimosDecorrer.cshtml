@@ -1,0 +1,37 @@
+﻿@model IEnumerable<MyBookList.Models.Empresta>
+
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+            {
+                var imgName = "/Content/Imagens/Livros/" + @item.ID_Livro + ".jpg";
+            <tr class="js-shop__item">
+                <td style="width:80px">
+                    <img width="50" height="50" class="img-responsive shopping-cart-item__img" src="@imgName">
+                </td>
+                <td>
+                    <div>
+                        <p><b>@item.Livro.Titulo</b></p>
+                        <p>@item.Livro.Escreve.Autor.Nome</p>
+                        <p>Emprestado por: @item.Utilizador.Username</p>
+                    </div>
+                </td>
+                <td>
+                    <div style="align-content:center">
+                        <b>Iniciado em:</b> @string.Format("{0:dd-MM-yyyy}", item.Data_Emprestimo)<br />
+                    </div>
+                </td>
+                <td>
+                    @using (Html.BeginForm("DarFeedBack","Registado"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input style="display:none" class="form-control" name="livro" value="@item.ID_Livro">
+                        <input style="display:none" class="form-control" name="empresta" value="@item.ID_UserEmpresta">
+                        <input style="display:none" class="form-control" name="recebe" value="@item.ID_UserRecebe">
+                        <button class="btn btn-primary" type="submit">Devolver</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

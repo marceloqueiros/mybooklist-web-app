@@ -1,0 +1,35 @@
+﻿@{  WebImage photo = null;
+    var newFileName = "";
+    var imagePath = "";
+
+    photo = WebImage.GetImageFromRequest();
+    if (IsPost)
+    {
+        if (photo != null)
+        {
+            newFileName = "loja" + Path.GetExtension(photo.FileName);
+            imagePath = @"/Content/Imagens/Admin/Temp/" + newFileName;
+            photo.Save(@"~\" + imagePath);
+        }
+    }
+}
+<!DOCTYPE html>
+<html>
+<body>
+    @if (imagePath != "")
+    {
+        <div class="result">
+            <img width="174" height="100" src="@imagePath" alt="image" />
+        </div>
+    }
+    else
+    {
+        <img src="~/Content/Imagens/Admin/loja.jpg" width="174" height="174" />
+    }
+
+    <form method="post" enctype="multipart/form-data">
+        <input onchange="this.form.submit()" type="file" name="Image" />
+    </form>
+</body>
+</html>
+

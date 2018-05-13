@@ -1,0 +1,19 @@
+﻿<style>.guardar{}</style>
+
+<input id="in" type="text" value="@ViewBag.valor" />
+<a class="guardar" id="@ViewBag.id" href="#">
+<img src="~/Content/Imagens/Admin/diskette_save_saveas_1514.png" width="15" height="15" />
+</a>
+<script>$('.guardar').click(function () {
+    $.ajax({
+        type: "Post",
+        url: "/BackOffice/guardarcat",
+        data: {
+            id: $(this).attr('id'),
+            valor: $("#in").val()
+        },
+        success: function (response) {
+            $('#categorias').html(response); // ATUALIZAR O TARGET
+        }
+    });
+});</script>

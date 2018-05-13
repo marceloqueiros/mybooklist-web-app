@@ -1,0 +1,164 @@
+﻿@*using WebMatrix.Data;
+    @{
+        var db = Database.Open("MyBookListConnectionString3");
+        var selectQueryStringLeu = "SELECT * FROM Leu where ID_Livro = " + Model.ID_Livro + " and ID_Utilizador = " + ViewBag.Utilizador + "ORDER BY Data_Comentario DESC";
+        var selectQueryStringUtilizador = "SELECT * FROM Utilizador ORDER BY Nome";
+        var selectQueryStringPossui = "SELECT * FROM Possui where ID_Livro = " + Model.ID_Livro + " and ID_Utilizador = " + ViewBag.Utilizador + "ORDER BY Nome";
+    }
+
+    @foreach (var item in db.Query(selectQueryStringLeu))
+    {
+        foreach (var item2 in db.Query(selectQueryStringUtilizador))
+        {
+            //if (item.ID_Utilizador == item2.ID_Utilizador == ViewBag.Utilizador)
+            //{
+           // }
+        }
+    }
+               <h5>Adicionar à Biblioteca</h5>
+                <div class="onoffswitch">
+                    <input type="checkbox" class="onoffswitch-checkbox" id="tag'@Model.ID_Livro'" value="@Model.ID_Livro" >
+                    <label class="onoffswitch-label" for="tag'@Model.ID_Livro'">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </div>
+                <br />
+                <h5>Livro lido</h5>
+                <div class="onoffswitch">
+                    <input type="checkbox" class="onoffswitch-checkbox" id="lido'@Model.ID_Livro'" value="@Model.ID_Livro">
+                    <label class="onoffswitch-label" for="lido'@Model.ID_Livro'">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </div>*@
+
+<!DOCTYPE html>
+<html>
+@using WebMatrix.Data;
+@{
+    var db = Database.Open("MyBookListConnectionString");
+    var selectQueryStringLeu = "SELECT * FROM Leu where ID_Livro = " + Model.ID_Livro + " and ID_Utilizador = " + ViewBag.Utilizador + "ORDER BY Data_Comentario DESC";
+    var selectQueryStringUtilizador = "SELECT * FROM Utilizador ORDER BY Nome";
+    var selectQueryStringPossui = "SELECT * FROM Possui where ID_Livro = " + Model.ID_Livro + " and ID_Utilizador = " + ViewBag.Utilizador + "ORDER BY Nome";
+}
+
+<head>
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 11px;
+        }
+
+            .switch input {
+                display: none;
+            }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 8px;
+                width: 8px;
+                left: 1px;
+                bottom: 1px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(8px);
+            -ms-transform: translateX(8px);
+            transform: translateX(8px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 11px;
+        }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+    </style>
+</head>
+
+<body>
+    @foreach (var item in db.Query(selectQueryStringLeu))
+    {
+        foreach (var item2 in db.Query(selectQueryStringUtilizador))
+        {
+            if (item.ID_Utilizador == item2.ID_Utilizador == ViewBag.Utilizador)
+            {
+                <div style="float:right">
+                    <h5>Adicionar à Biblioteca</h5>
+                    <label class="switch">
+                        <input type="checkbox" id="tag'@item.ID_Livro'" value="@item.ID_Livro" checked="@item.Estado">
+                        
+                    </label><div class="slider"></div>
+                </div>
+                <div style="float:right;">
+                    <h5>Livro lido &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                    <label class="switch" id="tag'@item.ID_Livro'" value="@item.ID_Livro" checked="@item.Estado">
+                        <input type="checkbox" checked>
+                        <div class="slider"></div>
+                    </label><br><br>
+                </div>
+            }
+        }
+    }
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('input[id^="tag"]').change(function () {
+            $.ajax({
+                type: "Post",
+                url: "/Registado/visibilidadeAlterada",
+                data: {
+                    id: $(this).val()
+                },
+                //success: function (response) {
+                //    window.alert("done");
+                //}
+            });
+        });
+        $('input[id^="lido"]').change(function () {
+            //window.alert("entrou!");
+            $.ajax({
+                type: "Post",
+                url: "/Registado/livroLido",
+                data: {
+                    id: $(this).val()
+                },
+
+                success: function (response) {
+                    $('#LIDOS').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MyBookList" Class="DataClassesMBLDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-IM0HQUB;Initial Catalog=MyBookList;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MyBookListConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Adiciona" Member="Adicionas">
+    <Type Name="Adiciona">
+      <Column Name="ID_Livro" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_Administrador" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Data_Adicao" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Administrador_Adiciona" Member="Administrador" ThisKey="ID_Administrador" OtherKey="ID_Administrador" Type="Administrador" IsForeignKey="true" />
+      <Association Name="Livro_Adiciona" Member="Livro" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Livro" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Utilizador" Member="Utilizadors">
+    <Type Name="Utilizador">
+      <Column Name="ID_Utilizador" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Pass" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Nome" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Estado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Data_Nascimento" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="ContactoTelefone" Type="System.String" DbType="VarChar(9)" CanBeNull="true" />
+      <Column Name="ContactoEmail" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="MoradaLocalidade" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MoradaCodigo_Postal" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="MoradaRua" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="MoradaPorta" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Feedback" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Token" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Bloqueado" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Utilizador_Bloqueia" Member="Bloqueias" ThisKey="ID_Utilizador" OtherKey="ID_Utilizador" Type="Bloqueia" />
+      <Association Name="Utilizador_Empresta" Member="Emprestas" ThisKey="ID_Utilizador" OtherKey="ID_UserEmpresta" Type="Empresta" />
+      <Association Name="Utilizador_Empresta1" Member="Emprestas1" ThisKey="ID_Utilizador" OtherKey="ID_UserRecebe" Type="Empresta" />
+      <Association Name="Utilizador_Leu" Member="Leus" ThisKey="ID_Utilizador" OtherKey="ID_Utilizador" Type="Leu" />
+      <Association Name="Utilizador_Pede" Member="Pedes" ThisKey="ID_Utilizador" OtherKey="ID_Utilizador" Type="Pede" />
+      <Association Name="Utilizador_Possui" Member="Possuis" ThisKey="ID_Utilizador" OtherKey="ID_Utilizador" Type="Possui" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Administrador" Member="Administradors">
+    <Type Name="Administrador">
+      <Column Name="ID_Administrador" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Pass" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="Administrador_Adiciona" Member="Adicionas" ThisKey="ID_Administrador" OtherKey="ID_Administrador" Type="Adiciona" />
+      <Association Name="Administrador_Bloqueia" Member="Bloqueias" ThisKey="ID_Administrador" OtherKey="ID_Administrador" Type="Bloqueia" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Autor" Member="Autors">
+    <Type Name="Autor">
+      <Column Name="ID_Autor" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nome" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Pseudonimo" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="Biografia" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Association Name="Autor_Escreve" Member="Escreves" ThisKey="ID_Autor" OtherKey="ID_Autor" Type="Escreve" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Bloqueia" Member="Bloqueias">
+    <Type Name="Bloqueia">
+      <Column Name="ID_Administrador" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_Utilizador" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_Bloqueio" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_Desbloqueio" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Motivo" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Association Name="Administrador_Bloqueia" Member="Administrador" ThisKey="ID_Administrador" OtherKey="ID_Administrador" Type="Administrador" IsForeignKey="true" />
+      <Association Name="Utilizador_Bloqueia" Member="Utilizador" ThisKey="ID_Utilizador" OtherKey="ID_Utilizador" Type="Utilizador" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Categoria" Member="Categorias">
+    <Type Name="Categoria">
+      <Column Name="ID_Categoria" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nome" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+      <Association Name="Categoria_Pertence" Member="Pertences" ThisKey="ID_Categoria" OtherKey="ID_Categoria" Type="Pertence" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Disponivel" Member="Disponivels">
+    <Type Name="Disponivel">
+      <Column Name="ID_Loja" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_Livro" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Link" Type="System.String" DbType="VarChar(300) NOT NULL" CanBeNull="false" />
+      <Association Name="Livro_Disponivel" Member="Livro" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Livro" IsForeignKey="true" />
+      <Association Name="Loja_Disponivel" Member="Loja" ThisKey="ID_Loja" OtherKey="ID_Loja" Type="Loja" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Empresta" Member="Emprestas">
+    <Type Name="Empresta">
+      <Column Name="ID_Livro" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_UserEmpresta" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_UserRecebe" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_Emprestimo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Data_Devolucao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FeedBackComment_UserEmpresta" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
+      <Column Name="FeedBackComment_UserRecebe" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
+      <Column Name="ValueFeedBack_userEmpresta" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ValueFeedBack_userRecebe" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="Utilizador_Empresta" Member="Utilizador" ThisKey="ID_UserEmpresta" OtherKey="ID_Utilizador" Type="Utilizador" IsForeignKey="true" />
+      <Association Name="Utilizador_Empresta1" Member="Utilizador1" ThisKey="ID_UserRecebe" OtherKey="ID_Utilizador" Type="Utilizador" IsForeignKey="true" />
+      <Association Name="Livro_Empresta" Member="Livro" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Livro" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Escreve" Member="Escreves">
+    <Type Name="Escreve">
+      <Column Name="ID_Autor" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ID_Livro" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Autor_Escreve" Member="Autor" ThisKey="ID_Autor" OtherKey="ID_Autor" Type="Autor" IsForeignKey="true" />
+      <Association Name="Livro_Escreve" Member="Livro" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Livro" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Leu" Member="Leus">
+    <Type Name="Leu">
+      <Column Name="ID_Livro" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_Utilizador" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_Comentario" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Comentario" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Column Name="Estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Utilizador_Leu" Member="Utilizador" ThisKey="ID_Utilizador" OtherKey="ID_Utilizador" Type="Utilizador" IsForeignKey="true" />
+      <Association Name="Livro_Leu" Member="Livro" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Livro" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Livro" Member="Livros">
+    <Type Name="Livro">
+      <Column Name="ID_Livro" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ISBN" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Titulo" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Editora" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Sinopse" Type="System.String" DbType="VarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="EdicaoData" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="EdicaoNumero" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Livro_Adiciona" Member="Adiciona" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Adiciona" Cardinality="One" />
+      <Association Name="Livro_Disponivel" Member="Disponivels" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Disponivel" />
+      <Association Name="Livro_Empresta" Member="Emprestas" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Empresta" />
+      <Association Name="Livro_Escreve" Member="Escreve" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Escreve" Cardinality="One" />
+      <Association Name="Livro_Leu" Member="Leus" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Leu" />
+      <Association Name="Livro_Pede" Member="Pedes" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Pede" />
+      <Association Name="Livro_Pertence" Member="Pertence" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Pertence" Cardinality="One" />
+      <Association Name="Livro_Possui" Member="Possuis" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Possui" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Loja" Member="Lojas">
+    <Type Name="Loja">
+      <Column Name="ID_Loja" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nome" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+      <Association Name="Loja_Disponivel" Member="Disponivels" ThisKey="ID_Loja" OtherKey="ID_Loja" Type="Disponivel" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pede" Member="Pedes">
+    <Type Name="Pede">
+      <Column Name="ID_Livro" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_Utilizador" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data_Criacao" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Estado_Pedido" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Livro_Pede" Member="Livro" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Livro" IsForeignKey="true" />
+      <Association Name="Utilizador_Pede" Member="Utilizador" ThisKey="ID_Utilizador" OtherKey="ID_Utilizador" Type="Utilizador" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pertence" Member="Pertences">
+    <Type Name="Pertence">
+      <Column Name="ID_Livro" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_Categoria" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Categoria_Pertence" Member="Categoria" ThisKey="ID_Categoria" OtherKey="ID_Categoria" Type="Categoria" IsForeignKey="true" />
+      <Association Name="Livro_Pertence" Member="Livro" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Livro" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Possui" Member="Possuis">
+    <Type Name="Possui">
+      <Column Name="ID_Livro" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_Utilizador" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Visibilidade" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Lido" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Estado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Livro_Possui" Member="Livro" ThisKey="ID_Livro" OtherKey="ID_Livro" Type="Livro" IsForeignKey="true" />
+      <Association Name="Utilizador_Possui" Member="Utilizador" ThisKey="ID_Utilizador" OtherKey="ID_Utilizador" Type="Utilizador" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

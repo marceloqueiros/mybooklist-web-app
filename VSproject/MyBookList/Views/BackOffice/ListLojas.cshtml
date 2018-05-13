@@ -1,0 +1,35 @@
+﻿@model IEnumerable<MyBookList.Models.Loja>
+<br/>
+<h2><strong>Lista de Lojas</strong></h2>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            Editar
+        </th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    var imgName = "/Content/Imagens/Lojas/" + @item.ID_Loja + ".jpg";
+    <tr>
+        <td>
+            <a href="~/BackOffice/VerLoja/@item.ID_Loja">
+                <img width="65" height="65" src="@imgName">
+            </a>
+        </td>
+        <td>
+            <div id="@item.ID_Loja">
+                @item.Nome
+            </div>
+        </td>
+        <td>
+            @Ajax.ActionLink("Editar Loja", "Eloja", new { id = item.ID_Loja }, new AjaxOptions { UpdateTargetId = item.ID_Loja.ToString() })
+        </td>
+    </tr>
+}
+
+</table>

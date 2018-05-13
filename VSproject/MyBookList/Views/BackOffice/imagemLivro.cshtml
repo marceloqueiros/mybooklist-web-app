@@ -1,0 +1,246 @@
+﻿@*@{
+        ViewBag.Title = "Submitview";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h2>Submitview</h2>*@
+
+@*<?
+        print_r($_POST);
+        print_r($_FILES);
+    ?>
+
+    <form id="data" method="post" enctype="multipart/form-data">
+        <input type="text" name="first" value="Bob" />
+        <input type="text" name="middle" value="James" />
+        <input type="text" name="last" value="Smith" />
+        <input name="image" type="file" />
+        <button>Submit</button>
+    </form>
+
+    <script>
+        $("form#data").submit(function () {
+
+        var formData = new FormData($(this)[0]);
+
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: formData,
+            async: false,
+            success: function (data) {
+                alert(data)
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+
+        return false;
+    });
+        </script>*@
+
+@*<form id="myForm" action="comment.php" method="post">
+        Name: <input type="text" name="name" />
+        Comment: <textarea name="comment"></textarea>
+        <input type="submit" value="Submit Comment" />
+    </form>
+
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script>
+
+        <script>
+
+            // wait for the DOM to be loaded
+            $(document).ready(function() {
+                // bind 'myForm' and provide a simple callback function
+                $('#myForm').ajaxForm(function() {
+                    alert("Thank you for your comment!");
+                });
+            });
+        </script>*@
+
+@*<!DOCTYPE html>
+
+    <form method="post" enctype="multipart/form-data" class="form-horizontal">
+
+        <table class="table table-bordered table-responsive">
+
+            <tr>
+                <td><label class="control-label">Username.</label></td>
+                <td><input class="form-control" type="text" name="user_name" placeholder="Enter Username" value="<?php echo $username; ?>" /></td>
+            </tr>
+
+            <tr>
+                <td><label class="control-label">Profession(Job).</label></td>
+                <td><input class="form-control" type="text" name="user_job" placeholder="Your Profession" value="<?php echo $userjob; ?>" /></td>
+            </tr>
+
+            <tr>
+                <td><label class="control-label">Profile Img.</label></td>
+                <td><input class="input-group" type="file" name="user_image" accept="image/*" /></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <button type="submit" name="btnsave" class="btn btn-default">
+                        <span class="glyphicon glyphicon-save"></span> &nbsp; save
+                    </button>
+                </td>
+            </tr>
+
+        </table>
+
+    </form>
+
+
+        <?php
+     error_reporting( ~E_NOTICE ); // avoid notice
+        require_once 'dbconfig.php';
+
+        if(isset($_POST['btnsave']))
+        {
+            $username = $_POST['user_name'];// user name
+            $userjob = $_POST['user_job'];// user email
+
+            $imgFile = $_FILES['user_image']['name'];
+            $tmp_dir = $_FILES['user_image']['tmp_name'];
+            $imgSize = $_FILES['user_image']['size'];
+
+
+            if(empty($username)){
+                $errMSG = "Please Enter Username.";
+            }
+            else if(empty($userjob)){
+                $errMSG = "Please Enter Your Job Work.";
+            }
+            else if(empty($imgFile)){
+                $errMSG = "Please Select Image File.";
+            }
+            else
+            {
+                $upload_dir = 'user_images/'; // upload directory
+
+                $imgExt = strtolower(pathinfo($imgFile,PATHINFO_EXTENSION)); // get image extension
+
+                // valid image extensions
+                $valid_extensions = array('jpeg', 'jpg', 'png', 'gif'); // valid extensions
+
+                // rename uploading image
+                $userpic = rand(1000,1000000).".".$imgExt;
+
+                // allow valid image file formats
+                if(in_array($imgExt, $valid_extensions)){
+                    // Check file size '5MB'
+                    if($imgSize < 5000000)    {
+                        move_uploaded_file($tmp_dir,$upload_dir.$userpic);
+                    }
+                    else{
+                        $errMSG = "Sorry, your file is too large.";
+                    }
+                }
+                else{
+                    $errMSG = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                }
+            }
+
+
+            // if no error occured, continue ....
+            if(!isset($errMSG))
+            {
+                $stmt = $DB_con->prepare('INSERT INTO tbl_users(userName,userProfession,userPic) VALUES(:uname, :ujob, :upic)');
+                $stmt->bindParam(':uname',$username);
+                $stmt->bindParam(':ujob',$userjob);
+                $stmt->bindParam(':upic',$userpic);
+
+                if($stmt->execute())
+                {
+                    $successMSG = "new record succesfully inserted ...";
+                    header("refresh:5;index.php"); // redirects image view page after 5 seconds.
+                }
+                else
+                {
+                    $errMSG = "error while inserting....";
+                }
+            }
+        }
+        ?>*@
+
+@{  WebImage photo = null;
+    var newFileName = "";
+    var imagePath = "";
+
+    photo = WebImage.GetImageFromRequest();
+    if (IsPost)
+    {
+        if (photo != null)
+        {
+            newFileName = "book" + Path.GetExtension(photo.FileName);
+            //Guid.NewGuid().ToString() + "_" +
+            //
+            imagePath = @"/Content/Imagens/Admin/Temp/" + newFileName;
+
+            //string caminho = HttpContext.Server.MapPath("/Content/Imagens/Admin/Lojas");
+            //int id = db.Livros.Max<Livro>(x => x.ID_Livro) + 1;
+            //caminho += "\\" + id + ".jpg";
+            //imagem.SaveAs(caminho + "/" + imagem.FileName);
+
+            photo.Save(@"~\" + imagePath);
+        }
+    }
+}
+<!DOCTYPE html>
+<html>
+<body>
+        @if (imagePath != "")
+        {
+            <div class="result">
+                <img width="174" height="210" src="@imagePath" alt="image" />
+            </div>
+        }
+        else
+        {
+            <img src="~/Content/Imagens/Admin/imgres.jpg" width="174" height="210" />
+        }
+
+        <form method="post" enctype="multipart/form-data">
+            <input onchange="this.form.submit()" type="file" name="Image" />
+        </form>
+
+    @*<form action="" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend> Upload Image </legend>
+            <label for="Image">Image</label>
+            <input id="getimage" onchange="this.form.submit()" type="file" name="Image" />
+            <br />
+            @*<input type="submit" value="Upload" />
+        </fieldset>
+    </form>
+    <h1>Uploaded Image</h1>
+    @if (imagePath != "")
+    {
+        <div class="result">
+            <img src="@imagePath" alt="image" />
+
+        </div>
+    }*@
+</body>
+</html>
+
+<script>
+
+    //$(document).ready(function () {
+    //    $('#getimage').change(function () {
+    //        .submit({
+    //            type: "Post",
+    //            data: {
+    //                id: $(this).val()
+    //            },
+    //            success: function (response) {
+    //                window.alert("done");
+    //            }
+    //        });
+    //    });
+    //});
+</script>

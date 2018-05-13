@@ -1,0 +1,252 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 16px;
+        }
+
+        #wrapper {
+            padding-left: 70px;
+            transition: all .4s ease 0s;
+            height: 100%;
+        }
+
+        #sidebar-wrapper {
+            margin-left: -150px;
+            left: 70px;
+            width: 150px;
+            background: #222;
+            position: fixed;
+            height: 100%;
+            z-index: 10000;
+            transition: all .4s ease 0s;
+        }
+
+        .sidebar-nav {
+            display: block;
+            float: left;
+            width: 150px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #page-content-wrapper {
+            padding-left: 0;
+            margin-left: 0;
+            width: 100%;
+            height: auto;
+        }
+
+        #wrapper.active {
+            padding-left: 150px;
+        }
+
+            #wrapper.active #sidebar-wrapper {
+                left: 150px;
+            }
+
+        #page-content-wrapper {
+            width: 100%;
+        }
+
+        #sidebar_menu li a, .sidebar-nav li a {
+            color: #999;
+            display: block;
+            float: left;
+            text-decoration: none;
+            width: 190px;                 /*LARGURA*/
+            background: #252525;
+            border-top: 1px solid #373737;
+            border-bottom: 1px solid #1A1A1A;
+            -webkit-transition: background .5s;
+            -moz-transition: background .5s;
+            -o-transition: background .5s;
+            -ms-transition: background .5s;
+            transition: background .5s;
+        }
+
+        .sidebar_name {
+            padding-top: 25px;
+            color: #fff;
+            opacity: .7;
+        }
+
+        .sidebar-nav li {
+            line-height: 40px;
+            text-indent: 20px;
+        }
+
+            .sidebar-nav li a {
+                color: #999999;
+                display: block;
+                text-decoration: none;
+            }
+
+                .sidebar-nav li a:hover {
+                    color: #fff;
+                    background: rgba(255,255,255,0.2);
+                    text-decoration: none;
+                }
+
+                .sidebar-nav li a:active,
+                .sidebar-nav li a:focus {
+                    text-decoration: none;
+                }
+
+        .sidebar-nav > .sidebar-brand {
+            height: 65px;
+            line-height: 60px;
+            font-size: 18px;
+        }
+
+            .sidebar-nav > .sidebar-brand a {
+                color: #999999;
+            }
+
+                .sidebar-nav > .sidebar-brand a:hover {
+                    color: #fff;
+                    background: none;
+                }
+
+        #main_icon {
+            float: right;
+            padding-right: 10px;            /*icone menu*/
+            padding-top: 20px;
+        }
+
+        .sub_icon {
+            float: right;
+            padding-right: 10px;
+            padding-top: 10px;
+        }
+
+        .content-header {
+            height: 65px;
+            line-height: 65px;
+        }
+
+            .content-header h1 {
+                margin: 0;
+                margin-left: 20px;
+                line-height: 65px;
+                display: inline-block;
+            }
+
+  /*media         (max-width:767px) {
+            ;*/
+#wrapper
+        {
+            padding-left: 70px;
+            transition: all .4s ease 0s;
+        }
+
+        #sidebar-wrapper {
+            left: -5px;         
+            width: 0px;                       /*MUDANÇA*/
+        }
+
+        #wrapper.active {
+            padding-left: 150px;
+        }
+
+            #wrapper.active #sidebar-wrapper {
+                left: 150px;
+                width: 190px;       /*largura*/
+                transition: all .4s ease 0s;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <br/>
+    <div id="wrapper" class="active">
+        <!-- Sidebar -->
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul id="sidebar_menu" class="sidebar-nav">
+                <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu Admin<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+            </ul>
+            <ul class="sidebar-nav" id="sidebar">
+                <li><a id="ListLivros" href="#">Livros<span class="sub_icon glyphicon glyphicon-list-alt"></span></a></li>
+                <li><a id="ListUtilizadores" href="#">Utilizadores<span class="sub_icon glyphicon glyphicon-user"></span></a></li>
+                <li><a id="ListLojas" href="#">Lojas<span class="sub_icon glyphicon glyphicon-list-alt"></span></a></li>
+                <li><a href="/BackOffice/CreateBook">Adicionar Livro<span class="sub_icon glyphicon glyphicon-plus"></span></a></li>
+                <li><a href="/BackOffice/CreateStore">Adicionar Loja<span class="sub_icon glyphicon glyphicon-plus"></span></a></li>   
+                <li><a href="/BackOffice/CreateAuthor">Adicionar Autor<span class="sub_icon glyphicon glyphicon-plus"></span></a></li>   
+                <li><a data-toggle="modal" data-target="#myModalcategoria" href="#">Adicionar Categoria<span class="sub_icon glyphicon glyphicon-plus"></span></a></li>
+                <li><a href="~/Account/Logout"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+$("#menu-toggle").click(function (e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("active");
+});
+
+$(document).ready(function () {
+    $("#ListLivros").click(function (e) {
+        $.ajax({
+            url: "/BackOffice/ListLivros",
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+    });
+
+    $("#ListUtilizadores").click(function (e) {
+        $.ajax({
+            url: "/BackOffice/ListUtilizadores",
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+    });
+
+
+    $("#ListLojas").click(function (e) {
+        $.ajax({
+            url: "/BackOffice/ListLojas",
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+    });
+
+    $("#AddCategoria").click(function (e) {
+        $.ajax({
+            url: "/BackOffice/AddCategoria",
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+    });
+});
+
+
+
+//$(document).ready(function () {
+//    $('#NumLivros').change(function () {
+//        $.ajax({
+//            type: "Post",
+//            url: "/Home/IndexAJAX",
+//            data: {
+//                TamanhoPagina: $('#NumLivros option:selected').text()
+//            },
+//            success: function (response) {
+//                $('#target').html(response); // ATUALIZAR O TARGET
+//            }
+//        });
+//    });
+//});
+</script>

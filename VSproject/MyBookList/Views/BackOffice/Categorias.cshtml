@@ -1,0 +1,268 @@
+﻿
+<style>
+    .with-nav-tabs.panel-info .nav-tabs > li > a,
+    .with-nav-tabs.panel-info .nav-tabs > li > a:hover,
+    .with-nav-tabs.panel-info .nav-tabs > li > a:focus {
+        color: #31708f;
+    }
+
+        .with-nav-tabs.panel-info .nav-tabs > .open > a,
+        .with-nav-tabs.panel-info .nav-tabs > .open > a:hover,
+        .with-nav-tabs.panel-info .nav-tabs > .open > a:focus,
+        .with-nav-tabs.panel-info .nav-tabs > li > a:hover,
+        .with-nav-tabs.panel-info .nav-tabs > li > a:focus {
+            color: #31708f;
+            background-color: #bce8f1;
+            border-color: transparent;
+        }
+
+    .with-nav-tabs.panel-info .nav-tabs > li.active > a,
+    .with-nav-tabs.panel-info .nav-tabs > li.active > a:hover,
+    .with-nav-tabs.panel-info .nav-tabs > li.active > a:focus {
+        color: #31708f;
+        background-color: #fff;
+        border-color: #bce8f1;
+        border-bottom-color: transparent;
+    }
+
+    .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu {
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+    }
+
+        .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a {
+            color: #31708f;
+        }
+
+            .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+            .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+                background-color: #bce8f1;
+            }
+
+        .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+        .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+        .with-nav-tabs.panel-info .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+            color: #fff;
+            background-color: #31708f;
+        }
+
+    body {
+        padding: 15px;
+    }
+
+    /*#exTab1 .tab-content {
+        color: white;
+        background-color: #428bca;
+        padding: 5px 15px;
+    }*/
+    #exTab2 h3 {
+        color: white;
+        background-color: white;
+        padding: 5px 15px;
+    }
+    /* remove border radius for the tab */
+
+    /*#exTab1 .nav-pills > li > a {
+        border-radius: 0;
+    }
+
+    /* change border radius for the tab , apply corners on top*/
+
+
+    #tab0 {
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+    }
+
+    #tab4 {
+        padding-top: 7px;
+        padding-right: 7px;
+        padding-bottom: 7px;
+        padding-left: 7px;
+    }
+
+    #tab1info {
+        padding-right: 7px;
+        padding-left: 7px;
+        background-color: white;
+    }
+
+    #tab2info {
+        padding-right: 7px;
+        padding-left: 7px;
+        background-color: white;
+    }
+
+    .action {
+    }
+
+    .actiona {
+    }
+
+    .cat {
+    }
+
+    .aut {
+    }
+</style>
+
+@using WebMatrix.Data;
+@{
+    var db = Database.Open("MyBookListConnectionString");
+    var selectQueryStringCat = "SELECT * FROM Categoria ORDER BY Nome";
+    var selectQueryStringAut = "SELECT * FROM Autor ORDER BY Nome";
+}
+<br />
+<div style="text-align:right;display:inline-block">
+    <div class="input-group">
+
+        <select id="filtrar" class="btn btn-default dropdown-toggle" type="button" title="Filtrar Por:">
+            <option value="" disabled selected>Filtrar Por:</option>
+            <option>Livro</option>
+            <option>Editora</option>
+            <option>Loja</option>
+        </select>
+        <div class="input-group col-lg-12 center-block">
+            <input id="valorfiltrar" @*onchange="filtro()"*@ oninput="filtro()" class="form-control search-input" type="text" placeholder="Pesquisa..." name="pesquisa">
+        </div>
+    </div>
+</div>
+<br />
+<div class="panel with-nav-tabs panel-info">
+    <div id="tab0" class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li class="active"><a id="tab4" href="#tab1info" data-toggle="tab">Categorias</a></li>
+            <li><a id="tab4" href="#tab2info" data-toggle="tab">Autores</a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tab1info">
+                <div id="cat"></div>
+                @foreach (var row in db.Query(selectQueryStringCat))
+                {
+                        <a class="action" id="@row.ID_Categoria" href="#">@row.Nome</a>
+                        <a id="@row.ID_Categoria" class="editcat" href="#">
+                            <img src="~/Content/Imagens/Admin/edit-notes.png" width="15" height="15" />
+                        </a><br />
+                }
+            </div>
+            <div class="tab-pane fade" id="tab2info"><div id="aut"></div>
+                @foreach (var row in db.Query(selectQueryStringAut))
+                {
+                    
+                        <a class="actiona" id="@row.ID_Autor" href="#">@row.Nome</a>
+                        <a id="@row.ID_Autor" class="editaut" href="#">
+                            <img src="~/Content/Imagens/Admin/edit-notes.png" width="15" height="15" />
+                        </a><br />
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$('.editcat').click(function () {
+    $.ajax({
+        type: "Post",
+        url: "/BackOffice/editcat",
+        data: {
+            id: $(this).attr('id')
+        },
+        success: function (response) {
+            $("#cat").html(response); // ATUALIZAR O TARGET
+        },
+        error: function (xhr, httpStatusMessage, customErrorMessage) {
+            alert(customErrorMessage);
+        }
+    });
+});
+
+$('.editaut').click(function () {
+    $.ajax({
+        type: "Post",
+        url: "/BackOffice/editaut",
+        data: {
+            id: $(this).attr('id')
+        },
+        success: function (response) {
+           $("#aut").html(response); // ATUALIZAR O TARGET
+        },
+        error: function (xhr, httpStatusMessage, customErrorMessage) {
+            alert(customErrorMessage);
+        }
+    });
+});</script>
+<style>    .editcat {
+    }
+    .editaut {
+    }
+</style>
+<script>
+    function filtro() {
+        $.ajax({
+            type: "Post",
+            url: "/BackOffice/Filtrar",
+            data: {
+                opcao: $('#filtrar option:selected').text(),
+                valor: $('#valorfiltrar').val()
+            },
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+
+        $.ajax({
+            type: "Post",
+            url: "/BackOffice/Filtrar",
+            data: {
+                opcao: $('#filtrar option:selected').text(),
+                valor: $('#valorfiltrar').val()
+            },
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+
+        $.ajax({
+            type: "Post",
+            url: "/BackOffice/Filtrar",
+            data: {
+                opcao: $('#filtrar option:selected').text(),
+                valor: $('#valorfiltrar').val()
+            },
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+    };
+
+    $('.action').click(function () {
+        $.ajax({
+            type: "Post",
+            url: "/BackOffice/Categoria",
+            data: {
+                id: $(this).attr('id')
+            },
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+    });
+
+    $('.actiona').click(function () {
+        $.ajax({
+            type: "Post",
+            url: "/BackOffice/Autor",
+            data: {
+                id: $(this).attr('id')
+            },
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+    });
+</script>

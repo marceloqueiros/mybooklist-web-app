@@ -1,0 +1,27 @@
+﻿@model IEnumerable<MyBookList.Models.Livro>
+
+<table class="table">
+    <tbody>
+        @foreach (var item in ViewBag.lidos)
+        {
+            var imgName = "/Content/Imagens/Livros/" + @item.ID_Livro + ".jpg";
+            var livro = @Model.Single(x => x.ID_Livro == @item.ID_Livro);
+
+            <tr class="js-shop__item">
+                <td style="width:90px">
+                    <img width="90" height="90" class="img-responsive shopping-cart-item__img" src="@imgName">
+                </td>
+                <td>
+                    <div>
+                        <b>@livro.Titulo</b> <br />
+                        @livro.Escreve.Autor.Nome <br /> <br />
+                    </div>
+                    <div>
+                        ISBN: @livro.ISBN<br />
+                        Editora: @livro.Editora
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,375 @@
+﻿@model MyBookList.Models.Utilizador
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link hhref="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin-top: 20px;
+        }
+
+        ._tabs {
+            margin-top: 40px;
+        }
+
+        .tab-pane {
+            padding-top: 20px;
+            background-color: white;
+        }
+
+        .panel-body > ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .panel-body > ul > li {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+                .panel-body > ul > li > a {
+                    display: block;
+                    padding: 8px 0;
+                    font-weight: 600;
+                    font-size: 11px;
+                    color: #777777;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                }
+
+        /*css butao redondo*/
+
+        .profile-panel .profile-info {
+            padding: 0;
+            margin: 20px;
+            list-style: none;
+        }
+
+        .panel-footer {
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            color: #fff;
+        }
+
+        .panel-footer {
+            padding: 10px 15px;
+            background-color: #f3f5f6;
+            border-top: 1px solid #ddd;
+        }
+
+        .panel-default .panel-footer {
+            color: #768399;
+            background-color: #e4e9eb;
+            border: 1px solid #e4e9eb;
+            border-top: none;
+        }
+
+        .panel.plain .panel-footer {
+            border-top: none;
+        }
+
+        .panel-footer .white-content {
+            color: #768399;
+            background: #fff;
+            background-color: #fff;
+        }
+
+        .profile-panel .profile-stats-info a {
+            font-size: 24px;
+            margin-right: 10px;
+            margin-top: 10px;
+            color: #79859b;
+        }
+
+        .profile-panel .user-name {
+            margin-top: 10px;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .profile-panel .profile-avatar img {
+            border-radius: 50%;
+            border: 1px solid #e7e7e2;
+        }
+
+        .profile-panel .profile-avatar {
+            border-radius: 50%;
+            padding: 10px;
+            border: 1px solid #e7e7e2;
+            float: left;
+        }
+
+        .panel-default .panel-body {
+            border: 1px solid #e4e9eb;
+            border-top: none;
+        }
+
+        .panel-body {
+            padding: 15px;
+        }
+
+        .profile-panel .profile-image {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+
+        .panel {
+            position: relative;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            border: 0;
+            box-shadow: none;
+        }
+
+        .panel-default {
+            border-color: #e4e9eb;
+        }
+
+        .panel.plain .panel-default .panel-heading {
+            border: 1px solid #e4e9eb;
+            border-bottom: none;
+        }
+
+        .panel.plain .panel-heading {
+            border-bottom: none;
+        }
+
+        .panel.panel-default .panel-heading {
+            color: #768399;
+        }
+
+        .panel-heading .white-content {
+            color: #768399;
+            background: #fff;
+            background-color: #fff;
+        }
+
+        .panel-default .panel-heading {
+            color: #768399;
+            background-color: #e4e9eb;
+            border-color: #e4e9eb;
+        }
+
+        .white-content {
+            color: #768399;
+            background: #fff;
+            background-color: #fff;
+        }
+
+        .p-left {
+            padding-left: 0 !important;
+        }
+
+        .p-right {
+            padding-right: 0 !important;
+        }
+
+        .panel-heading {
+            padding: 0 15px;
+            min-height: 4px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+
+        #hearts {
+            color: #ee8b2d;
+        }
+
+        #hearts-existing {
+            color: #ee8b2d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.Partial("~/Views/Shared/menuRegistado.cshtml")
+            </div>
+            <div class="col-sm-8">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    <div class="panel panel-default plain profile-panel">
+                        <div class="panel-heading white-content p-left p-right">
+                            <img class="profile-image img-responsive" src="~/Content/Imagens/booksslice.jpg" alt="profile cover">
+                        </div>
+                        <div style="text-align:center" class="panel-body">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="profile-avatar">
+                                    <img class="img-responsive" src="~/Content/Imagens/Users/@ViewBag.path" alt="profile picture">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <br />
+                                <br />
+                                <div class="user-name" style="text-align:right;">
+                                    Username: <span class="label label-success">@Html.DisplayFor(model => model.Username)</span>
+                                </div>
+                                <div class="user-name" style="text-align:right;">
+                                    Feedback: <span class="label label-success">@Model.Feedback</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer white-content">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;<i class="glyphicon glyphicon-user">Nome:</i></td>
+                                        <td>@Html.DisplayFor(model => model.Nome)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;<i class="glyphicon glyphicon-calendar">Data Nascimento:</i></td>
+                                        <td>@Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Data_Nascimento))</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;<i class="glyphicon glyphicon-phone">Telefone:</i></td>
+                                        <td>@Html.DisplayFor(model => model.ContactoTelefone)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;<i class="glyphicon glyphicon-envelope">Email:</i></td>
+                                        <td>@Html.DisplayFor(model => model.ContactoEmail)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;<i class="glyphicon glyphicon-map-marker">Morada:</i></td>
+                                        <td>@Html.DisplayFor(model => model.MoradaRua), Nº @Html.DisplayFor(model => model.MoradaPorta)<p>@Html.DisplayFor(model => model.MoradaCodigo_Postal), @Html.DisplayFor(model => model.MoradaLocalidade)</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class="btn btn-primary btn-danger btn-sm" href="~/Account/AlterarPass/">Alterar Password</a></td>
+                                        <td><a style="width:100px;" class="btn btn-primary btn-info btn-sm" href="~/Registado/Editar/@Model.ID_Utilizador">Editar</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-sm-2">
+                    @Html.Partial("~/Views/Shared/CategoriasLado.cshtml")
+                </div>*@
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+    var __slice = [].slice;
+
+    (function ($, window) {
+        var Starrr;
+
+        Starrr = (function () {
+            Starrr.prototype.defaults = {
+                rating: void 0,
+                numStars: 5,
+                change: function (e, value) { }
+            };
+
+            function Starrr($el, options) {
+                var i, _, _ref,
+                  _this = this;
+
+                this.options = $.extend({}, this.defaults, options);
+                this.$el = $el;
+                _ref = this.defaults;
+                for (i in _ref) {
+                    _ = _ref[i];
+                    if (this.$el.data(i) != null) {
+                        this.options[i] = this.$el.data(i);
+                    }
+                }
+                this.createStars();
+                this.syncRating();
+                this.$el.on('mouseover.starrr', 'span', function (e) {
+                    return _this.syncRating(_this.$el.find('span').index(e.currentTarget) + 1);
+                });
+                this.$el.on('mouseout.starrr', function () {
+                    return _this.syncRating();
+                });
+                this.$el.on('click.starrr', 'span', function (e) {
+                    return _this.setRating(_this.$el.find('span').index(e.currentTarget) + 1);
+                });
+                this.$el.on('starrr:change', this.options.change);
+            }
+
+            Starrr.prototype.createStars = function () {
+                var _i, _ref, _results;
+
+                _results = [];
+                for (_i = 1, _ref = this.options.numStars; 1 <= _ref ? _i <= _ref : _i >= _ref; 1 <= _ref ? _i++ : _i--) {
+                    _results.push(this.$el.append("<span class='glyphicon .glyphicon-star-empty'></span>"));
+                }
+                return _results;
+            };
+
+            Starrr.prototype.setRating = function (rating) {
+                if (this.options.rating === rating) {
+                    rating = void 0;
+                }
+                this.options.rating = rating;
+                this.syncRating();
+                return this.$el.trigger('starrr:change', rating);
+            };
+
+            Starrr.prototype.syncRating = function (rating) {
+                var i, _i, _j, _ref;
+
+                rating || (rating = this.options.rating);
+                if (rating) {
+                    for (i = _i = 0, _ref = rating - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+                        this.$el.find('span').eq(i).removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+                    }
+                }
+                if (rating && rating < 5) {
+                    for (i = _j = rating; rating <= 4 ? _j <= 4 : _j >= 4; i = rating <= 4 ? ++_j : --_j) {
+                        this.$el.find('span').eq(i).removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+                    }
+                }
+                if (!rating) {
+                    return this.$el.find('span').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+                }
+            };
+
+            return Starrr;
+
+        })();
+        return $.fn.extend({
+            starrr: function () {
+                var args, option;
+
+                option = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+                return this.each(function () {
+                    var data;
+
+                    data = $(this).data('star-rating');
+                    if (!data) {
+                        $(this).data('star-rating', (data = new Starrr($(this), option)));
+                    }
+                    if (typeof option === 'string') {
+                        return data[option].apply(data, args);
+                    }
+                });
+            }
+        });
+    })(window.jQuery, window);
+
+    $(function () {
+        return $(".starrr").starrr();
+    });
+
+    $(document).ready(function () {
+
+        $('#hearts').on('starrr:change', function (e, value) {
+            $('#count').html(value);
+        });
+
+        $('#hearts-existing').on('starrr:change', function (e, value) {
+            $('#count-existing').html(value);
+        });
+    });
+</script>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<MyBookList.Models.Livro>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.RenderPartial("~/Views/Shared/CategoriasLado.cshtml");
+}
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <style>
+        .livro {
+            float: left;
+            margin: 6px;
+            padding: 6px;
+            max-width: 200px;
+            height: 350px;
+        }
+    </style>
+</head>
+<body>
+    <br />
+    <select style="float:right">
+        <option value="nome">Nome</option>
+        <option value="autor">Autor</option>
+        <option value="editora">Editora</option>
+        <option value="categoria">Categoria</option>
+    </select>
+    <h2>Adicionados Recentemente</h2>
+    @foreach (var item in Model)
+    {
+        var imgName = "/Content/Imagens/Livros/" + @item.ID_Livro + ".jpg";
+        <div class="livro">
+            <a href="~/Home/Livro/@item.ID_Livro">
+                @* link para onde vai ao carregar no livro *@
+                <img width="174" height="270" src="@imgName"
+                     class="attachment-post-thumbnail size-post-thumbnail wp-post-image hoverZoomLink"
+                     alt="Ver detalhes Livro - Autor" @* para que serve? *@
+                     style="width:100%">
+                <p><p align="center">@item.Titulo - @item.Escreve.Autor.Nome</p>
+            </a>
+        </div>
+        @*@Html.DisplayFor(modelItem => item.Titulo)*@
+    }
+    <br />
+</body>
+</html>

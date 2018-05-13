@@ -1,0 +1,137 @@
+﻿@*@model MyBookList.Models.Categoria
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Categoria</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+<style>
+    .modal-body .form-horizontal .col-sm-2,
+    .modal-body .form-horizontal .col-sm-10 {
+        width: 100%;
+    }
+
+    .modal-body .form-horizontal .control-label {
+        text-align: left;
+    }
+
+    .modal-body .form-horizontal .col-sm-offset-2 {
+        margin-left: 15px;
+    }
+</style>
+
+<!-- Button trigger modal -->
+@*<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalNorm">
+        Launch Normal Form
+    </button>*@
+
+<!-- Modal -->
+<div class="modal fade" id="myModalcategoria" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">
+                    <strong>Adicionar Categoria</strong>
+                </h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <form id="formcat">
+                <div class="modal-body">
+                    <label>Nome</label>
+                    @Html.Editor("nome", "Insira o nome da Categoria", new { htmlAttributes = new { @class = "form-control", placeholder = "Nome da Categoria" } })
+                    @Html.ValidationMessage("nome", "", new { @class = "text-danger" })
+                </div>
+            </form>
+            <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" id="submitcat" class="btn btn-primary">
+                        Adicionar
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    var boxHeight = $('.modal-dialog').height();
+    var boxWidth = $('.modal-dialog').width();
+    $('.modal-dialog').css({ 'left': ((windowWidth - boxWidth - 800) / 2), 'top': ((windowHeight - boxHeight - 700) / 2) });
+</script>
+
+<script>
+    //$("a[data-target=#myModalCategoria]").click(function (ev) {
+    //    ev.preventDefault();
+    //    var target = $(this).attr("href");
+
+    //    // load the url and show modal on success
+    //    $("#myModalCategoria .modal-body").load(target, function () {
+    //        $("#myModalCategoria").modal("show");
+    //    });
+    //});
+
+ $(function() {
+     //twitter bootstrap script
+
+     $("#submitcat").click(function () {
+	        $.ajax({
+    		type: "POST",
+		url: "/BackOffice/AddCategoria",
+		data: $('#formcat').serialize(),
+		success: function (msg) {
+        	    $("#categorias").html(msg);
+        	    $.ajax({
+        	        type: "POST",
+        	        url: "/BackOffice/AtualizarCat",
+        	        success: function (msg) {
+        	            $("#atualizarcat").html(msg);
+        	        }
+        	        //});
+        	        //$('#myModal').modal('hide');
+        	    });
+        	    //});
+        	    //$('#myModal').modal('hide');
+        	},
+        	error: function (xhr, httpStatusMessage, customErrorMessage) {
+        	    alert(customErrorMessage);
+        	}
+      		});
+	});
+ });
+</script>
+
+@*@using (Ajax.BeginForm("AddCategoria", "BackOffice", new AjaxOptions
+    {
+        UpdateTargetId = "categorias",
+        InsertionMode = InsertionMode.ReplaceWith,
+        HttpMethod = "Post",
+    }))
+    {*@

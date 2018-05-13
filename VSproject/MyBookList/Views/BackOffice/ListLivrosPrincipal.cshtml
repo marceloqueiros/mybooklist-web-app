@@ -1,0 +1,186 @@
+﻿@*@model PagedList.IPagedList<MyBookList.Models.Livro>
+@using PagedList.Mvc*@
+@model IEnumerable<MyBookList.Models.Livro>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .livro {
+            float: left;
+            margin: 6px;
+            padding: 6px;
+            max-width: 200px;
+            height: 350px;
+        }
+
+        .actionl {
+        }
+
+        .lista {
+        }
+
+         .switch {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 11px;
+        }
+
+            .switch input {
+                display: none;
+            }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 8px;
+                width: 8px;
+                left: 1px;
+                bottom: 1px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(8px);
+            -ms-transform: translateX(8px);
+            transform: translateX(8px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 11px;
+        }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+    </style>
+</head>
+
+
+<body>
+    <br />
+    <div class="row" style="padding-bottom:-5px;margin-bottom:-5px">
+
+        <div style="text-align:right;display:inline-block" class="col-sm-4">
+            <strong>Ordenar por:&nbsp;</strong>
+            <select id="Ordenar" name="Ordenar" style="float:right">
+                @if (Request.Cookies["OrdenarPagina"] != null)
+                {
+                    <option value="" disabled selected>@Request.Cookies["OrdenarPagina"].Value</option>
+                }
+                <option>Data de Adição</option>
+                <option>Data de Edição</option>
+                <option>Título</option>
+                <option>ISBN</option>
+                <option>Autor</option>
+                <option>Editora</option>
+                <option>Categoria</option>
+            </select>
+        </div>
+        <div style="text-align:right ;display:inline-block" class="col-sm-4">
+            <strong>Livros por Página:&nbsp;</strong>
+            <select id="NumLivros" name="NumLivros" style="float:right">
+
+                @if (Request.Cookies["livrosPorPagina"] != null)
+                {
+                    <option value="" disabled selected>@Request.Cookies["livrosPorPagina"].Value</option>
+                }
+                <option>20</option>
+                <option>8</option>
+                <option>40</option>
+                <option>80</option>
+            </select>
+        </div>
+        <div style="text-align:right;display:inline-block" class="col-sm-4">
+            <a class="lista" href="#">
+                <img width="20" height="20" title="Modo Lista" src="~/Content/Imagens/Admin/lista.png" />&nbsp;&nbsp;Modo Lista
+            </a>
+        </div>
+        <hr />
+        @if (ViewBag.title != null)
+        {
+            <p style="font-weight: bold;font-size:large">&nbsp;&nbsp;@ViewBag.title</p>
+        }
+        else
+        {
+            <p style="font-weight: bold; font-size:large">&nbsp;&nbsp;Adicionados Recentemente:</p>
+        }
+
+        @foreach (var item in Model)
+        {
+            var imgName = "/Content/Imagens/Livros/" + @item.ID_Livro + ".jpg";
+            <div class="col-md-3">
+                <div class="thumbnail" style="padding-right:7px; padding-left:7px; padding-top:7px; height:320px;width:200px">
+                    <a class="actionl" href="#" id="@item.ID_Livro">
+                        <img width="174" height="270" src="@imgName" class="attachment-post-thumbnail size-post-thumbnail wp-post-image hoverZoomLink" alt="Ver detalhes Livro - Autor" style="width:100%">
+                        <div class="caption">
+                            <p><p align="center">@item.Titulo - @item.Escreve.Autor.Nome</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+        <br />
+    </div>
+    <div class="row">
+        @*<div style="text-align:center">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { pagina = page }))
+        </div>*@
+    </div>
+</body>
+</html>
+
+<script>
+    $('.actionl').click(function () {
+        $.ajax({
+            type: "Post",
+            url: "/BackOffice/LivroAjax",
+            data: {
+                id: $(this).attr('id')
+            },
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+    });
+
+    $('.lista').click(function (e) {
+        $.ajax({
+            url: "/BackOffice/ListLivros",
+            success: function (response) {
+                $('#partial').html(response); // ATUALIZAR O TARGET
+            }
+        });
+    });
+</script>

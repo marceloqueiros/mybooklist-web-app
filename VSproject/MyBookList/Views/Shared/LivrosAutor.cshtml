@@ -1,0 +1,20 @@
+﻿@model IEnumerable<MyBookList.Models.Livro>
+
+@foreach (var item in Model)
+{
+    if(item.Escreve.Autor.ID_Autor == ViewBag.IdAutor)
+    {
+    var imgName = "/Content/Imagens/Livros/" + @item.ID_Livro + ".jpg";
+    <div class="col-md-4">
+        <div class="thumbnail">
+            <a href="~/Home/Livro/@item.ID_Livro">
+                <img width="174" height="270" src="@imgName" class="attachment-post-thumbnail size-post-thumbnail wp-post-image hoverZoomLink" alt="Ver detalhes Livro - Autor" style="width:100%">
+                <div class="caption">
+                    <p><p align="center">@item.Titulo - @item.Escreve.Autor.Nome</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    }
+}
+

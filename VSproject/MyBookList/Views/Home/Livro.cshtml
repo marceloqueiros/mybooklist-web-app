@@ -1,0 +1,81 @@
+﻿@model MyBookList.Models.Livro
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/.../css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/.../jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/.../js/bootstrap.min.js"></script>
+
+    <style>
+        .livro {
+            float: left;
+            margin: 6px;
+            padding: 6px;
+            max-width: 200px;
+            height: 350px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-8">
+                <br />
+
+                @* @Html.Partial("~/Views/Shared/LidoBiblioteca.cshtml")*@
+                <br />
+                <p><p align="left"><h2>@Model.Titulo - <a href="@ViewBag.Autor">@Model.Escreve.Autor.Nome</a></h2></p>
+                <div class="col-md-6">
+                    <div class="thumbnail">
+                        <img src="@ViewBag.CapaLivro" style="width:100%">
+                    </div>
+                </div>
+                <div class="caption">
+                    <h4>Sinopse:</h4>
+                    <p align="left"><h5>@Model.Sinopse</h5></p>
+                    <p align="left"><h4>ISBN: </h4><h5>@Model.ISBN</h5></p>
+                    <p align="left"><h4>Editora: </h4><h5>@Model.Editora</h5></p>
+                    <button type="submit" class="btn btn-normal pull-right">Pedir Emprestado</button>
+                    <br />
+                </div>
+                <br />
+            </div>
+            <div class="col-sm-2">
+                @Html.Partial("~/Views/Shared/CategoriasLado.cshtml")
+            </div>
+            <div class="col-sm-1">
+                @*1 coluna sem nada*@
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-8">
+                @Html.Partial("~/Views/Shared/Links.cshtml")
+                <br/>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <br />
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-8">
+                @Html.Partial("~/Views/Shared/Comentarios.cshtml")
+            </div>
+        </div>
+    </div>
+</body>
+</html>

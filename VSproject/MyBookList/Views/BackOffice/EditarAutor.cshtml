@@ -1,0 +1,49 @@
+﻿@model MyBookList.Models.Autor
+
+<h2><strong>Editar Autor</strong></h2>
+<hr />
+
+@if (TempData["Addautor"] != null)
+{
+    <p style="font-weight: bold; color:green;">@TempData["Addautor"]</p>
+}
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="col-sm-5">
+    @Html.Partial("~/Views/BackOffice/imagemAutor.cshtml")
+</div>
+@*<form id="formb" class="form-horizontal">*@
+@using (Ajax.BeginForm("CreateAuthorInfo", new AjaxOptions { UpdateTargetId = "partial", HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+{
+    <div class="row">
+        <div class="col-sm-7">
+            <div>
+                <label>Nome:</label>
+            </div>
+            <div>
+                <input value="@Model.Nome" typeof="textbox" name="nome" placeholder="Nome do Autor" required />
+            </div><br />
+            <div>
+                <label>Pseudónimo:</label>
+            </div>
+            <div>
+                <input value="@Model.Pseudonimo" typeof="textbox" name="pseudonimo" placeholder="Pseudónimo do Autor" required />
+            </div><br />
+            <div>
+                <label>Biografia:</label>
+            </div>
+            <div>
+                <textarea value="@Model.Biografia" name="biografia" placeholder="Insira um texto descritivo da vida do Autor com um máximo de 1000 caracteres." rows="6" cols="400"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-5 col-md-10">
+            <strong><input id="tb" type="submit" value="Guardar Alterações" class="btn btn-primary" /></strong>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

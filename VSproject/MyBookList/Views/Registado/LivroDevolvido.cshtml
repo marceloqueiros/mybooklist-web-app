@@ -1,0 +1,155 @@
+﻿@model MyBookList.Models.Empresta
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin-top: 10px;
+        }
+
+        ._tabs {
+            margin-top: 40px;
+        }
+
+        .tab-pane {
+            padding-top: 20px;
+            background-color: white;
+        }
+
+        .panel-body > ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .panel-body > ul > li {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+                .panel-body > ul > li > a {
+                    display: block;
+                    padding: 8px 0;
+                    font-weight: 600;
+                    font-size: 11px;
+                    color: #777777;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                }
+
+        .panel.panel-default {
+            border-top-width: 3px;
+        }
+
+        .panel {
+            box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+            border: 0;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        .thumb96 {
+            width: 96px !important;
+            height: 96px !important;
+        }
+
+        .thumb48 {
+            width: 48px !important;
+            height: 48px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.Partial("~/Views/Shared/menuRegistado.cshtml")
+            </div>
+            <div class="col-sm-8">
+                <h3>&nbsp;&nbsp;Livro Devolvido:</h3><hr />
+                @{
+                    var imgName = "/Content/Imagens/Livros/" + Model.ID_Livro + ".jpg";
+                }
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <div class="pv-lg"><img class="center-block img-responsive img-circle img-thumbnail thumb96" src="@imgName" alt="Contact"></div>
+                            <div class="mv-lg">
+                                <p>@Model.Livro.Titulo</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default hidden-xs hidden-sm">
+                        <div class="panel-heading">
+                            <div class="panel-title text-center">Dados do utilizador:</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="media">
+                                <div class="media-body pt-sm">
+                                    <div class="text-bold">
+                                        <p>
+                                            <span class="glyphicon glyphicon-user"></span>&nbsp;@Model.Utilizador1.Username<br /><br />
+                                            <span class="glyphicon glyphicon-envelope"></span>&nbsp;@Model.Utilizador1.ContactoEmail<br />
+                                            <span class="glyphicon glyphicon-phone"></span>&nbsp;@Model.Utilizador1.ContactoTelefone<br /><br />
+                                            <span class="glyphicon glyphicon-globe"></span>&nbsp;@Model.Utilizador1.MoradaRua, N.º @Model.Utilizador1.MoradaPorta<br />
+                                            &nbsp;&nbsp;&nbsp;&nbsp;@Model.Utilizador1.MoradaCodigo_Postal, @Model.Utilizador1.MoradaLocalidade
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="h4 text-center">Feedback:</div>
+                            <div class="row pv-lg">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    @using (Html.BeginForm("LivroDevolvido","Registado"))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal ng-pristine ng-valid">
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <input style="display:none" class="form-control" name="livro" value="@Model.ID_Livro">
+                                            <input style="display:none" class="form-control" name="user" value="@Model.ID_UserRecebe">
+                                            <input style="display:none" class="form-control" name="data" value="@Model.Data_Emprestimo">
+                                            <div class="form-group">
+                                                @Html.Label("Classifique o empréstimo de 0 a 5:", htmlAttributes: new { @class = "control-label col-sm-11 text-left text-muted" })<br />
+                                                <div class="col-sm-11">
+                                                    <input class="form-control" name="Feedback" type="number" min="0" max="5" step="0.5" required>
+                                                    @Html.ValidationMessage("Feedback", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="form-group">
+                                                @Html.Label("Deixar um comentário:", htmlAttributes: new { @class = "control-label col-sm-11 text-left text-muted" })<br>
+                                                <div class="col-sm-11">
+                                                    <textarea class="form-control" name="Comment" rows="5" maxlength="300"></textarea>
+                                                    @Html.ValidationMessage("Comment", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-3 col-sm-10">
+                                                    <button class="btn btn-primary" type="submit">Deixar Feedback</button>
+                                                </div>
+                                            </div>
+                                            <br />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

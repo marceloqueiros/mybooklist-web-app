@@ -1,0 +1,385 @@
+﻿@model MyBookList.Models.Livro
+<style>
+    #datain {
+        height: 30px;
+    }
+
+    #eddata {
+        width: 100px;
+        height: 30px;
+    }
+
+    #datain3 {
+        width: 70px;
+    }
+
+    #tb {
+        width: 200px;
+        height: 40px;
+        font-size: large;
+    }
+
+    #isbn9 {
+        width: 95px;
+    }
+
+    #isbn13 {
+        width: 120px;
+    }
+
+    #isbn {
+        width: 75px;
+        height: 26px;
+    }
+
+    .boxed {
+        border: 1px solid lightblue;
+    }
+</style>
+
+@*@Html.AntiForgeryToken()*@
+
+
+    <h2><strong>Novo Livro</strong></h2>
+    <hr />
+
+    @if (TempData["Addlivro"] != null)
+    {
+        <p style="font-weight: bold; color:green;">@TempData["Addlivro"]</p>
+    }
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="col-sm-4">
+        @Html.Partial("~/Views/BackOffice/imagemLivro.cshtml")
+    </div>
+@*<form id="formb" class="form-horizontal">*@
+@using (Ajax.BeginForm("CreateBookInfo", new AjaxOptions {  UpdateTargetId = "partial", HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+{
+    <div class="row">
+        <div class="col-sm-4">
+            <div>
+                <strong>ISBN:</strong><br />
+                <span id="isbnt"><input class="form-group" name="isbnm" typeof="textbox" id="isbn9" placeholder="9 caracteres" maxlength="9"/></span>
+                <select id="isbn" name="isbn">
+                    @*style="float:right"*@
+                    <option>ISBN 9</option>
+                    <option>ISBN 13</option>
+                </select>
+                @Html.ValidationMessage("isbnm", "", new { @class = "text-danger" })
+            </div>
+            <div>
+                <strong>Título:</strong><br />
+                <input class="form-group"  typeof="textbox" name="titulo" placeholder="Título do Livro" required/>
+                @Html.ValidationMessage("titulo", "", new { @class = "text-danger" })
+            </div>
+            <div>
+                <strong>Autor:</strong><br />
+                <span id=atualizarautor>
+                    @Html.DropDownList("autor", (SelectList)ViewBag.Autores, "--Selecione o Autor--", new { htmlAttributes = new { @class = "form-control" } })
+                </span>
+                @Html.ValidationMessage("autor", "", new { @class = "text-danger" })
+                <a title="Adicionar Autor" data-toggle="modal" data-target="#myModalAutor" href="#">
+                    <img style="vertical-align:central" width="25" height="25" src="~/Content/Imagens/Admin/add-button-hi.png" />
+                </a>
+            </div>
+
+            <div>
+                <strong>Categoria:</strong><br />
+                <span id=atualizarcat>
+                    @Html.DropDownList("categoria", (SelectList)ViewBag.Categorias, "--Selecione a Categoria--", new { htmlAttributes = new { @class = "form-control"  } })
+                </span>@Html.ValidationMessage("categoria", "", new { @class = "text-danger" })
+                <a title="Adicionar Categoria" data-toggle="modal" data-target="#myModalcategoria" href="#">
+                    <img style="vertical-align:central" width="25" height="25" src="~/Content/Imagens/Admin/add-button-hi.png" />
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div>
+                <strong>Editora:</strong><br />
+                <input class="form-group" typeof="textbox" name="editora" placeholder="Editora" required/>
+                @Html.ValidationMessage("editora", "", new { @class = "text-danger" })
+            </div>
+            <div>
+                <strong>Número de Edição:</strong>
+                <input class="form-group" typeof="textbox" name="ednumero" placeholder="Número de Edição" required/>
+                @Html.ValidationMessage("ednumero", "", new { @class = "text-danger" })
+            </div>
+            <div>
+                <strong>Data de Edição:</strong>
+                <div id="datain3" class="input-group">
+                    <input typeof="textbox" id="eddata" name="eddata" placeholder="MM/DD/YYYY" required/>
+                    <div class="input-group-addon">
+                        <i id="datain2" class="fa fa-calendar">
+                        </i>
+                    </div>
+                </div>
+                @Html.ValidationMessage("eddata", "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div>
+                <strong>Sinópse:</strong><br />
+                <textarea placeholder="Breve descrição do Livro" name="sinopse" rows="5" cols="200" required></textarea>
+                @Html.ValidationMessage("sinopse", "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div class="col-md-offset-3 col-md-10">
+                <strong><input id="tb" type="submit" value="Criar Livro" class="btn btn-primary" /></strong>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div style="vertical-align:central">
+                <strong>Adicionar Loja:</strong><br />
+                <span id=atualizarloja>
+                    @Html.DropDownList("loja", (SelectList)ViewBag.Lojas, "--Selecione a Loja--", new { htmlAttributes = new { @class = "form-control"  } })
+                </span>
+                @Html.ValidationMessage("loja", "", new { @class = "text-danger" })
+                <a title="Adicionar Loja" data-toggle="modal" data-target="#myModalLoja" href="#">
+                    <img style="vertical-align:central" width="25" height="25" src="~/Content/Imagens/Admin/add-button-hi.png" />
+                </a>
+
+            </div>
+
+            <div>
+                <strong>Link do Livro:</strong><br />
+                <input class="form-group" typeof="textbox" id="link" placeholder="Link do Livro"/>
+                @Html.ValidationMessage("link", "", new { @class = "text-danger" })
+                <input id="ad" type="button" value="Adicionar Link" class="btn btn-primary" />
+            </div><br />
+            <div class="boxed">
+                <strong>Links Adicionados:</strong>
+                <div id="links">
+                </div>
+            </div>
+        </div>
+        @*<svg height="4" width="600">
+                <line x1="0" y1="0" x2="275" y2="0" style="stroke:rgb(0,100,400);stroke-width:2" />
+            </svg>*@
+    </div>
+}
+@*</form>*@
+<!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+<!--Font Awesome (added because you use icons in your prepend/append)-->
+<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+<!-- Extra JavaScript/CSS added manually in "Settings" tab -->
+<!-- Include jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<!-- Include Date Range Picker -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    //$("#formb").click(function () {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/BackOffice/CreateBook",
+    //        data: $('#form').serialize(),
+    //        success: function (msg) {
+    //            $("#partial").html(msg);
+    //        },
+    //        error: function (xhr, httpStatusMessage, customErrorMessage) {
+    //            alert(customErrorMessage);
+    //        }
+    //    });
+    //});
+
+    $(document).ready(function () {
+        $('#isbn').change(function () {
+            $.ajax({
+                type: "Post",
+                url: "/BackOffice/isbn",
+                data: {
+                    isbn: $('#isbn option:selected').text()
+                },
+                success: function (response) {
+                    $('#isbnt').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $('#ad').click(function () {
+            $.ajax({
+                type: "Post",
+                url: "/BackOffice/AddLink",
+                data: {
+                    loja: $('#loja option:selected').text(),
+                    link: $('#link').val()
+                },
+                success: function (response) {
+                    $('#links').before(response); // ATUALIZAR O TARGET
+                },
+                error: function (xhr, httpStatusMessage, customErrorMessage) {
+                    alert(customErrorMessage);
+                }
+            });
+        });
+    });
+
+    $("#eddata").datepicker();
+    //$("#datain2").mouseleave(function () {
+    //    eventFire(document.getElementById('datepicker'), 'click');
+    //});
+    //function myFunction() {
+    //    document.getElementById("eddata").click(); // Click on the checkbox
+    //}
+    //function eventFire(el, etype) {
+    //    if (el.fireEvent) {
+    //        el.fireEvent('on' + etype);
+    //    } else {
+    //        var evObj = document.createEvent('Events');
+    //        evObj.initEvent(etype, true, false);
+    //        el.dispatchEvent(evObj);
+    //    }
+    //}</script>
+
+
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+
+        <script src="~/Scripts/locales/bootstrap-datepicker.pt.min.js"></script>
+        <script>
+            $('.input-group.date').datepicker({
+                format: 'dd/mm/yyyy'
+                //language: 'pt',
+                //weekStart: 0,
+                //startDate:'0d',
+                //todayHighlight: true
+            });
+        </script>*@
+
+    @*<script type="text/javascript">
+            $(function() {
+                $("#form0").submit(function(event) {
+                    var dataString;
+                    event.preventDefault();
+                    var action = $("#form0").attr("action");
+                    if ($("#form0").attr("enctype") == "multipart/form-data") {
+                        //this only works in some browsers.
+                        //purpose? to submit files over ajax. because screw iframes.
+                        //also, we need to call .get(0) on the jQuery element to turn it into a regular DOM element so that FormData can use it.
+                        dataString = new FormData($("#form0").get(0));
+                        contentType = false;
+                        processData = false;
+                    } else {
+                        // regular form, do your own thing if you need it
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: action,
+                        data: dataString,
+                        dataType: "json", //change to your own, else read my note above on enabling the JsonValueProviderFactory in MVC
+                        contentType: contentType,
+                        processData: processData,
+                        success: function(data) {
+                            //BTW, data is one of the worst names you can make for a variable
+                            handleSuccessFunctionHERE(data);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            //do your own thing
+                            alert("fail");
+                        }
+                    });
+                }); //end .submit()
+            });
+
+            handleSuccessFunctionHERE(data)
+            {
+                $.ajax({
+                    type: "GET",
+                    url: "/Profile/GetImageModified",
+                    data: {},
+                    dataType: "text",
+                    success: function (MSG) {
+                        $("#imageUploaded").attr("src", "data:image/gif;base64," + msg);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            }
+        </script>*@
+
+    @*The MSG variable is an base64 encrypted string. In my case it's the source of the image.
+
+        In this way I managed to change a profile picture and after that the picture is immediately updated. Also make sure you add in Application_Start (global.asax) ValueProviderFactories.Factories.Add(new JsonValueProviderFactory()); Pretty nice no?
+
+        P.S.: This Solution works so don't hesitate to ask more details.*@
+
+
+    @*<script type="text/javascript">
+            $(function() {
+                $("#form0").submit(function(event) {
+                    var dataString;
+                    event.preventDefault();
+                    var action = $("#form0").attr("action");
+                    if ($("#form0").attr("enctype") == "multipart/form-data") {
+                        //this only works in some browsers.
+                        //purpose? to submit files over ajax. because screw iframes.
+                        //also, we need to call .get(0) on the jQuery element to turn it into a regular DOM element so that FormData can use it.
+                        dataString = new FormData($("#form0").get(0));
+                        contentType = false;
+                        processData = false;
+                    } else {
+                        // regular form, do your own thing if you need it
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: action,
+                        data: dataString,
+                        dataType: "json", //change to your own, else read my note above on enabling the JsonValueProviderFactory in MVC
+                        contentType: contentType,
+                        processData: processData,
+                        success: function(data) {
+                            //BTW, data is one of the worst names you can make for a variable
+                            handleSuccessFunctionHERE(data);
+                        }//,
+                        //error: function(jqXHR, textStatus, errorThrown) {
+                        //    //do your own thing
+                        //    alert("fail");
+                        //}
+                    });
+                }); //end .submit()
+            });
+        </script>
+
+        <script>
+            handleSuccessFunctionHERE(data)
+            {
+                $.ajax({
+                    type: "GET",
+                    url: "/BackOffice/GetImageModified",
+                    data: {
+                        imagem: data
+                    },
+                    dataType: "text",
+                    success: function (MSG) {
+                        $("#imageUploaded").attr("src", "data:image/jpeg;base64," + msg);
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                $("#imag").click(function (e) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/BackOffice/GetImageModified",
+                        data: {},
+                        dataType: "text",
+                        success: function (MSG) {
+                            $("#imageUploaded").attr("src", "data:image/jpeg;base64," + msg);
+                        }
+                    });
+                });
+            });
+        </script>*@
+

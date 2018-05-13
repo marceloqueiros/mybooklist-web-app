@@ -1,0 +1,46 @@
+﻿@model IEnumerable<MyBookList.Models.Empresta>
+
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+            {
+                var imgName = "/Content/Imagens/Livros/" + @item.ID_Livro + ".jpg";
+            <tr class="js-shop__item">
+                <td style="width:80px">
+                    <img width="50" height="50" class="img-responsive shopping-cart-item__img" src="@imgName">
+                </td>
+                <td>
+                    <div>
+                        <div>
+                            <p><b>@item.Livro.Titulo</b></p>
+                            <p>@item.Livro.Escreve.Autor.Nome</p>
+                            <p>Emprestado por: @item.Utilizador.Username</p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div style="align-content:center">
+                        <p><b>Iniciado em:</b> @string.Format("{0:dd-MM-yyyy}", item.Data_Emprestimo)</p>
+                        <p><b>Terminado em:</b> @string.Format("{0:dd-MM-yyyy}", item.Data_Devolucao)</p>
+                    </div>
+                </td>
+                <td>
+                    <div style="align-content:center">
+                        @{
+                            if (item.ValueFeedBack_userEmpresta != null)
+                            {
+                                <b>Feedback Recebido:</b> @item.ValueFeedBack_userEmpresta
+                            }
+                            @*else
+                            {
+                                <a class="btn btn-primary" href="~/Registado/DarFeedBack/@item">Dar Feedback</a>
+                            }*@
+
+                        }
+                        
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,113 @@
+﻿@model MyBookList.Models.Empresta
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin-top: 10px;
+        }
+
+        ._tabs {
+            margin-top: 40px;
+        }
+
+        .tab-pane {
+            padding-top: 20px;
+            background-color: white;
+        }
+
+        .panel-body > ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .panel-body > ul > li {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+                .panel-body > ul > li > a {
+                    display: block;
+                    padding: 8px 0;
+                    font-weight: 600;
+                    font-size: 11px;
+                    color: #777777;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                }
+
+        .panel.panel-default {
+            border-top-width: 3px;
+        }
+
+        .panel {
+            box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+            border: 0;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        .thumb96 {
+            width: 96px !important;
+            height: 96px !important;
+        }
+
+        .thumb48 {
+            width: 48px !important;
+            height: 48px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.Partial("~/Views/Shared/menuRegistado.cshtml")
+            </div>
+            <div class="col-sm-8">
+                <h3>&nbsp;&nbsp;Problemas:</h3><hr />
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="h4 text-center">Indique o seu problema:</div>
+                            <div class="row pv-lg">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal ng-pristine ng-valid">
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <input style="display:none" class="form-control" name="livro" value="@Model.ID_Livro">
+                                            <input style="display:none" class="form-control" name="user" value="@Model.ID_UserRecebe">
+                                            <input style="display:none" class="form-control" name="data" value="@Model.Data_Emprestimo">
+                                            <div class="form-group">
+                                                <div class="col-sm-11">
+                                                    <textarea class="form-control" name="Comment" rows="5" maxlength="300" required></textarea>
+                                                    @Html.ValidationMessage("Comment", "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-3 col-sm-10">
+                                                    <button class="btn btn-primary" type="submit">Reportar</button>
+                                                </div>
+                                            </div>
+                                            <br />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

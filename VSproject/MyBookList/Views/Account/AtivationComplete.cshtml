@@ -1,0 +1,22 @@
+﻿@model MyBookList.Models.Utilizador
+
+@{
+    ViewBag.Title = "AtivationComplete";
+    Layout = "~/Views/Shared/_LayoutTeste.cshtml";
+}
+
+<br />
+
+<div style="text-align:center; border: 3px solid black;" class="col-sm-8">
+    <p>Olá @Model.Username,</p>
+    <br />
+    <p>O seu email foi confirmado com sucesso e a sua conta ativada.</p>
+    <p>Pode começar a usar a sua conta da MyBookList.</p>
+    <br />
+    <p>Obrigado e Bemvindo à MyBookList!!! </p>
+</div>
+
+<div style="text-align:end;" class="col-sm-8">
+    <br />
+    @Html.ActionLink("Seguir para o site.", "Index", "Home")
+</div>

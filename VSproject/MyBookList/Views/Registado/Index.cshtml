@@ -1,0 +1,150 @@
+﻿@model PagedList.IPagedList<MyBookList.Models.Livro>
+@using PagedList.Mvc
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .livro {
+            float: left;
+            margin: 6px;
+            padding: 6px;
+            max-width: 200px;
+            height: 350px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+            <div id="livro" class="row">
+                <br />
+                <br />
+                <div class="col-sm-2">
+                    @Html.Partial("~/Views/Shared/menuRegistado.cshtml")
+                </div>
+                <div id="livrotarget" class="col-sm-8">
+                    <div class="row" style="padding-bottom:-5px;margin-bottom:-5px">
+                        <div style="text-align:right;display:inline-block" class="col-sm-4">
+                        </div>
+                        <div style="text-align:right;display:inline-block" class="col-sm-4">
+                            <strong>Ordenar por:&nbsp;</strong>
+                            <select id="Ordenar" name="Ordenar" style="float:right">
+                                @if (Request.Cookies["OrdenarPagina"] != null)
+                                {
+                                    <option value="" disabled selected>@Request.Cookies["OrdenarPagina"].Value</option>
+                                }
+                                <option>Data de Adição</option>
+                                <option>Data de Edição</option>
+                                <option>Título</option>
+                                <option>ISBN</option>
+                                <option>Autor</option>
+                                <option>Editora</option>
+                                <option>Categoria</option>
+                            </select>
+                        </div>
+                        <div style="text-align:right ;display:inline-block" class="col-sm-4">
+                            <strong>Livros por Página:&nbsp;</strong>
+                            <select id="NumLivros" name="NumLivros" style="float:right">
+
+                                @if (Request.Cookies["livrosPorPagina"] != null)
+                                {
+                                    <option value="" disabled selected>@Request.Cookies["livrosPorPagina"].Value</option>
+                                }
+                                <option>20</option>
+                                <option>8</option>
+                                <option>40</option>
+                                <option>80</option>
+                            </select>
+                        </div>
+                        <hr />
+                        <div id="target">@Html.Partial("Livros", Model)</div>@*TARGET*@
+                    </div>
+                    <div class="row">
+                        <div style="text-align:center">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { pagina = page }))
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div style="text-align:right;display:inline-block">
+                        <div class="input-group">
+
+                            <select id="filtrar"class="btn btn-default dropdown-toggle" type="button" title="Filtrar Por:">
+                                <option value="" disabled selected>Filtrar Por:</option>
+                                <option>Livro</option>
+                                <option>Editora</option>
+                                <option>Loja</option>
+                            </select>
+                            <div class="input-group col-lg-12 center-block">
+                                <input id="valorfiltrar" @*onchange="filtro()"*@ oninput="filtro()" class="form-control search-input" type="text" placeholder="Pesquisa..." name="pesquisa">
+                            </div>
+                        </div>
+                    </div>
+                    @Html.Partial("~/Views/Shared/CategoriasLado.cshtml")
+                </div>
+                <div class="col-sm-1">
+                    @*1 coluna sem nada*@
+                </div>
+            </div>
+        </div>
+</body>
+</html>
+
+<script>
+        function filtro() {
+            $.ajax({
+                type: "Post",
+                url: "/Home/Filtrar",
+                data: {
+                    opcao: $('#filtrar option:selected').text(),
+                    valor: $('#valorfiltrar').val()
+                },
+                success: function (response) {
+                    $('#target').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        };
+
+    $(document).ready(function () {
+        $('#NumLivros').change(function () {
+            $.ajax({
+                type: "Post",
+                url: "/Home/LivrosPagina",
+                data: {
+                    TamanhoPagina: $('#NumLivros option:selected').text()
+                },
+                success: function (response) {
+                    $('#target').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $('#Ordenar').change(function () {
+            $.ajax({
+                type: "Post",
+                url: "/Home/Ordenar",
+                data: {
+                    Ordenar: $('#Ordenar option:selected').text()
+                },
+                success: function (response) {
+                    $('#target').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+    });
+</script>

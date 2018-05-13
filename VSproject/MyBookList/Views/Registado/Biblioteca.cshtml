@@ -1,0 +1,274 @@
+﻿@model IEnumerable<MyBookList.Models.Livro>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin-top: 10px;
+        }
+
+        .ancora {
+            
+        }
+
+        ._tabs {
+            margin-top: 40px;
+        }
+
+        .tab-pane {
+            padding-top: 20px;
+            background-color: white;
+        }
+
+        .panel-body > ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .panel-body > ul > li {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+                .panel-body > ul > li > a {
+                    display: block;
+                    padding: 8px 0;
+                    font-weight: 600;
+                    font-size: 11px;
+                    color: #777777;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                }
+
+
+        /*css switch*/
+        .onoffswitch {
+            position: relative;
+            width: 90px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .onoffswitch-checkbox {
+            display: none;
+        }
+
+        .onoffswitch-label {
+            display: block;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid #999999;
+            border-radius: 20px;
+        }
+
+        .onoffswitch-inner {
+            display: block;
+            width: 200%;
+            margin-left: -100%;
+            -moz-transition: margin 0.3s ease-in 0s;
+            -webkit-transition: margin 0.3s ease-in 0s;
+            -o-transition: margin 0.3s ease-in 0s;
+            transition: margin 0.3s ease-in 0s;
+        }
+
+            .onoffswitch-inner:before, .onoffswitch-inner:after {
+                display: block;
+                float: left;
+                width: 50%;
+                height: 30px;
+                padding: 0;
+                line-height: 30px;
+                font-size: 14px;
+                color: white;
+                font-family: Trebuchet, Arial, sans-serif;
+                font-weight: bold;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            .onoffswitch-inner:before {
+                content: "SIM";
+                padding-left: 10px;
+                background-color: #2FCCFF;
+                color: #FFFFFF;
+            }
+
+            .onoffswitch-inner:after {
+                content: "NAO";
+                padding-right: 10px;
+                background-color: #EEEEEE;
+                color: #999999;
+                text-align: right;
+            }
+
+        .onoffswitch-switch {
+            display: block;
+            width: 18px;
+            margin: 6px;
+            background: #FFFFFF;
+            border: 2px solid #999999;
+            border-radius: 20px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 56px;
+            -moz-transition: all 0.3s ease-in 0s;
+            -webkit-transition: all 0.3s ease-in 0s;
+            -o-transition: all 0.3s ease-in 0s;
+            transition: all 0.3s ease-in 0s;
+        }
+
+        .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+            margin-left: 0;
+        }
+
+        .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+            right: 0px;
+        }
+    </style>
+
+
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.Partial("~/Views/Shared/menuRegistado.cshtml")
+            </div>
+                <div class="col-sm-7">
+                    <div class="_tabs">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#biblioteca" aria-controls="biblioteca" role="tab" data-toggle="tab" aria-expanded="true">A minha Biblioteca</a>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="#livrosLidos" aria-controls="livrosLidos" role="tab" data-toggle="tab" aria-expanded="false">Livros Lidos</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade active in" id="biblioteca">
+                                <div id="atualizar" class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            @foreach (var item in ViewBag.biblioteca)
+                                            {
+                                                var imgName = "/Content/Imagens/Livros/" + @item.ID_Livro + ".jpg";
+                                                var livro = @Model.Single(x => x.ID_Livro == @item.ID_Livro);
+                                                <tr class="js-shop__item">
+                                                    <td style="width:90px; height:90px;">
+                                                        <img width="90" height="90" class="img-responsive shopping-cart-item__img" src="@imgName">
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                            <b>@livro.Titulo</b> <br />
+                                                            @livro.Escreve.Autor.Nome <br /> <br />
+                                                        </div>
+                                                        <div style="align-content:center">
+                                                            ISBN: @livro.ISBN<br />
+                                                            Categoria: @livro.Pertence.Categoria.Nome<br />
+                                                            Editora: @livro.Editora
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        Disponível para empréstimo
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" class="onoffswitch-checkbox" id="tag'@item.ID_Livro'" value="@item.ID_Livro" checked="@item.Visibilidade">
+                                                            <label class="onoffswitch-label" for="tag'@item.ID_Livro'">
+                                                                <span class="onoffswitch-inner"></span>
+                                                                <span class="onoffswitch-switch"></span>
+                                                            </label>
+                                                        </div>
+                                                        <br />
+                                                        Livro lido
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" class="onoffswitch-checkbox" id="lido'@item.ID_Livro'" value="@item.ID_Livro" checked="@item.Lido">
+                                                            <label class="onoffswitch-label" for="lido'@item.ID_Livro'">
+                                                                <span class="onoffswitch-inner"></span>
+                                                                <span class="onoffswitch-switch"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div style="float:right">
+                                                            <a id="@item.ID_Livro" name="@item.ID_Livro" class="ancora" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div> <!-- / .table-responsive -->
+                            </div> <!-- / .tab-pane -->
+                            <div role="tabpanel" class="tab-pane fade" id="livrosLidos">
+                                <div class="table-responsive">
+                                        <div id="LIDOS">
+                                            @Html.Partial("livroLido", @Model)
+                                        </div>
+                                </div> <!-- / .table-responsive -->
+                            </div> <!-- / .tab-pane -->
+                        </div> <!-- / .tab-content -->
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('input[id^="tag"]').change(function () {
+            $.ajax({
+                type: "Post",
+                url: "/Registado/visibilidadeAlterada",
+                data: {
+                    id: $(this).val()
+                },
+                //success: function (response) {
+                //    window.alert("done");
+                //}
+            });
+        });
+        $('input[id^="lido"]').change(function () {
+            //window.alert("entrou!");
+            $.ajax({
+                type: "Post",
+                url: "/Registado/livroLido",
+                data: {
+                    id: $(this).val()
+                },
+                
+                success: function (response) {
+                    $('#LIDOS').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+
+        $('.ancora').click(function () {
+            window.alert("entrou!");
+            $.ajax({
+                type: "Post",
+                url: "/Registado/ApagarLivro",
+                data: {
+                    id: $(this).attr('id')
+                },
+
+                success: function (response) {
+                    $('#atualizar').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+
+
+    });
+</script>

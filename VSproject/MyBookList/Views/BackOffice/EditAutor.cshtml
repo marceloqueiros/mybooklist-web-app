@@ -1,0 +1,40 @@
+﻿
+@model MyBookList.Models.Autor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-1">
+                @Html.Partial("~/Views/BackOffice/MenuAdmin.cshtml")
+            </div>
+            <div class="col-sm-8">
+                <div id="partial">
+                    @Html.Partial("~/Views/BackOffice/EditarAutor.cshtml")
+                </div>
+            </div>
+            <div id="categorias" class="col-sm-3">
+                @Html.Partial("~/Views/BackOffice/Categorias.cshtml")
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+@Html.Partial("~/Views/BackOffice/AddCategoria.cshtml")
+@Html.Partial("~/Views/BackOffice/AddAutor.cshtml")
+@Html.Partial("~/Views/BackOffice/AddLoja.cshtml")

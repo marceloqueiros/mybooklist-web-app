@@ -1,0 +1,24 @@
+﻿@model MyBookList.Models.Utilizador
+
+@{
+    ViewBag.Title = "PedirEmprestado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+<div style="text-align:center; border: 3px solid black;" class="col-sm-8">
+    <p>Olá @Model.Username,</p>
+    <br />
+    <p>Para poder pedir livros emprestados necessita de completar a informação do seu perfil.</p>
+    <p>Por favor clique <a href="~Registado/Perfil">aqui</a> e preencha os dados em falta.</p>
+    <p></p>
+    <br />
+</div>
+
+
+
+<div style="text-align:end;" class="col-sm-8">
+    <br />
+    @Html.ActionLink("Voltar.", "Index", "Registado")
+</div>

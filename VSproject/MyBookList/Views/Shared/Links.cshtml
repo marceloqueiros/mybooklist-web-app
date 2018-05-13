@@ -1,0 +1,25 @@
+﻿@using WebMatrix.Data;
+@{
+    var db = Database.Open("MyBookListConnectionString");
+    var selectQueryStringDisponivel = "SELECT * FROM Disponivel where ID_Livro = " + Model.ID_Livro + "ORDER BY Link";
+    var selectQueryStringLoja = "SELECT * FROM Loja ORDER BY Nome";
+}
+
+
+@foreach (var item in db.Query(selectQueryStringDisponivel))
+{
+    foreach (var item2 in db.Query(selectQueryStringLoja))
+    {
+        if (item.ID_Loja == item2.ID_Loja)
+        {
+            var ImagemLoja = "/Content/Imagens/Lojas/" + item2.ID_Loja + ".jpg";
+            <div>
+                <div class="col-md-2">
+                    <div class="thumbnail" style="display:table-cell; vertical-align:middle; text-align:center">
+                        <a class="pull-left" target="_blank" href="@item.Link"><img src="@ImagemLoja" /> </a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}

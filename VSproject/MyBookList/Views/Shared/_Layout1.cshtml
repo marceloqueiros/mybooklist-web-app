@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    @*link barra de navegacao*@
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <style>
+        .borda {
+            float: left;
+            margin: 12px;
+            padding: 6px;
+            max-width: 300px;
+            height: 900px;
+        }
+    </style>
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        ul.tab {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            /* Float the list items side by side */
+            ul.tab li {
+                float: left;
+            }
+
+                /* Style the links inside the list items */
+                ul.tab li a {
+                    display: inline-block;
+                    color: black;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                    transition: 0.3s;
+                    font-size: 17px;
+                }
+
+                    /* Change background color of links on hover */
+                    ul.tab li a:hover {
+                        background-color: #ddd;
+                    }
+
+                    /* Create an active/current tablink class */
+                    ul.tab li a:focus, .active {
+                        background-color: #ccc;
+                    }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+    <style>
+        #login-dp {
+            min-width: 250px;
+            padding: 14px 14px 0;
+            overflow: hidden;
+            background-color: rgba(255,255,255,.8);
+        }
+
+            #login-dp .help-block {
+                font-size: 12px;
+            }
+
+            #login-dp .bottom {
+                background-color: rgba(255,255,255,.8);
+                border-top: 1px solid #ddd;
+                clear: both;
+                padding: 14px;
+            }
+
+            #login-dp .social-buttons {
+                margin: 12px 0;
+            }
+
+                #login-dp .social-buttons a {
+                    width: 49%;
+                }
+
+            #login-dp .form-group {
+                margin-bottom: 10px;
+            }
+
+        .btn-fb {
+            color: #fff;
+            background-color: #3b5998;
+        }
+
+            .btn-fb:hover {
+                color: #fff;
+                background-color: #496ebc;
+            }
+
+        .btn-tw {
+            color: #fff;
+            background-color: #55acee;
+        }
+
+            .btn-tw:hover {
+                color: #fff;
+                background-color: #59b5fa;
+            }
+    </style>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <a href="~/Home/Index"> <img width="250" height="50" src="~/Content/Imagens/Logo3.png" style="width:15%;float:left" /> </a>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="~/Registado/Index">Página Inicial</a></li>
+                    <li><a href="~/Home/About">Sobre Nós</a></li>
+                    <li><a href="~/Home/Contact">Contactos</a></li>
+                    <li><a href="~/Home/Termos">Termos e Condições</a></li>
+                </ul>
+                <img style="margin-left:520px" src="~/Content/Imagens/Users/defaultUser.png" width="45" height="45" />
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>@HttpContext.Current.User.Identity.Name</b> <span class="caret"></span></a>
+                        <ul id="login-dp" class="dropdown-menu">
+                            <li>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" onclick="location.href='@Url.Action("Logout", "Account")'" class="btn btn-info btn-block">Logout</button>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br />
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+
+
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

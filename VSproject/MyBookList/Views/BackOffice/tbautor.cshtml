@@ -1,0 +1,9 @@
+﻿@using (Ajax.BeginForm("Gautor", new AjaxOptions { UpdateTargetId = "partial", InsertionMode = InsertionMode.Replace }))
+{
+    @Html.Hidden("id");
+    <text>Pseudónimo:</text><input type="text" name="pseudo" value="@ViewBag.pseudo" /> <br />
+    <text>Biografia:</text><input type="text" name="biografia" value="@ViewBag.biografia" />    <br />
+    <text>Novo nome:</text><input type="text" name="nome" value="@ViewBag.nome" />    <br />
+    <input type="submit" value="Guardar" />
+    @Html.ValidationMessage("nome")
+}

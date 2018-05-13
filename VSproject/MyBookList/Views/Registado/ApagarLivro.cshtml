@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MyBookList.Models.Livro>
+
+<table class="table">
+    <tbody>
+        @foreach (var item in ViewBag.biblioteca)
+        {
+            var imgName = "/Content/Imagens/Livros/" + @item.ID_Livro + ".jpg";
+            var livro = @Model.Single(x => x.ID_Livro == @item.ID_Livro);
+            <tr class="js-shop__item">
+                <td style="width:90px; height:90px;">
+                    <img width="90" height="90" class="img-responsive shopping-cart-item__img" src="@imgName">
+                </td>
+                <td>
+                    <div>
+                        <b>@livro.Titulo</b> <br />
+                        @livro.Escreve.Autor.Nome <br /> <br />
+                    </div>
+                    <div style="align-content:center">
+                        ISBN: @livro.ISBN<br />
+                        Categoria: @livro.Pertence.Categoria.Nome<br />
+                        Editora: @livro.Editora
+                    </div>
+                </td>
+                <td>
+                    Disponível para empréstimo
+                    <div class="onoffswitch">
+                        <input type="checkbox" class="onoffswitch-checkbox" id="tag'@item.ID_Livro'" value="@item.ID_Livro" checked="@item.Visibilidade">
+                        <label class="onoffswitch-label" for="tag'@item.ID_Livro'">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                    <br />
+                    Livro lido
+                    <div class="onoffswitch">
+                        <input type="checkbox" class="onoffswitch-checkbox" id="lido'@item.ID_Livro'" value="@item.ID_Livro" checked="@item.Lido">
+                        <label class="onoffswitch-label" for="lido'@item.ID_Livro'">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                    <div style="float:right">
+                        <a name="@item.ID_Livro" class="ancora" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

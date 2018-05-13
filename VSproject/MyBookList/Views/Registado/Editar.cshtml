@@ -1,0 +1,165 @@
+﻿@model MyBookList.Models.Utilizador
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 10px;
+        }
+
+        ._tabs {
+            margin-top: 40px;
+        }
+
+        .tab-pane {
+            padding-top: 20px;
+            background-color: white;
+        }
+
+        .panel-body > ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .panel-body > ul > li {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+                .panel-body > ul > li > a {
+                    display: block;
+                    padding: 8px 0;
+                    font-weight: 600;
+                    font-size: 11px;
+                    color: #777777;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.Partial("~/Views/Shared/menuRegistado.cshtml")
+            </div>
+            <!-- left column -->
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="text-center">
+                    Clique na foto para alterar.
+                    <a href="javascript:void(0);" onclick="$('#butao').trigger('click');">
+                        <img class="img-thumbnail img-responsive" src="~/Content/Imagens/Users/@ViewBag.path" width="200" height="200">
+                    </a>
+                    @using (Html.BeginForm("Foto", "Registado", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" }) <br />
+                            <div class="form-group">
+                                <input id="butao" style="display:none" type="file" name="foto" value="Alterar Imagem" onchange="$('#este').removeAttr('disabled');"/>
+                                @Html.ValidationMessage("foto", "", new { @class = "text-danger" }) <br />
+                            </div>
+                            <div class="form-horizontal">
+                                <input id="este" class="btn btn-primary" disabled type="submit" value="Guardar Imagem" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <!-- edit form column -->
+            <div class="col-md-4 col-sm-4 col-xs-12 personal-info">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.ID_Utilizador)
+                        <div class="form-group">
+                            @Html.Label("Nome:", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="Nome" value="@Model.Nome" required>
+                                @Html.ValidationMessage("Nome", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Username:", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="Username" value="@Model.Username" contenteditable="false">
+                                @Html.ValidationMessage("Username", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Email:", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="Email" value="@Model.ContactoEmail" required>
+                                @Html.ValidationMessage("Email", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Telefone:", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="Telefone" value="@Model.ContactoTelefone">
+                                @Html.ValidationMessage("Telefone", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Data de Nascimento:", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                <input type="date" class="form-control" name="Data" value="@string.Format("{0:yyyy-MM-dd}", Model.Data_Nascimento)" required>
+                                @Html.ValidationMessage("Data", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Localidade:", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="Localidade" value="@Model.MoradaLocalidade">
+                                @Html.ValidationMessage("Localidade", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Rua:", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="Rua" value="@Model.MoradaRua">
+                                @Html.ValidationMessage("Rua", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Porta:", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="Porta" value="@Model.MoradaPorta">
+                                @Html.ValidationMessage("Porta", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Codigo Postal:", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="CodigoPostal" value="@Model.MoradaCodigo_Postal">
+                                @Html.ValidationMessage("CodigoPostal", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"></label>
+                            <div class="col-md-8">
+                                <a class="btn btn-default" href="~/Registado/Perfil">Cancelar</a>
+                                <input class="btn btn-primary" value="Guardar" type="submit">
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+            @*<div class="col-sm-2">
+                    @Html.Partial("~/Views/Shared/CategoriasLado.cshtml")
+                </div>*@
+        
+    </div>
+
+</body>
+</html>

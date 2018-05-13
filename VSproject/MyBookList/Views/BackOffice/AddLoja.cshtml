@@ -1,0 +1,99 @@
+﻿@*@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Loja</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+
+<style>
+    .modal-body .form-horizontal .col-sm-2,
+    .modal-body .form-horizontal .col-sm-10 {
+        width: 100%;
+    }
+
+    .modal-body .form-horizontal .control-label {
+        text-align: left;
+    }
+
+    .modal-body .form-horizontal .col-sm-offset-2 {
+        margin-left: 15px;
+    }
+</style>
+
+<div class="modal fade" id="myModalLoja" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">
+                    <strong>Adicionar Loja</strong>
+                </h4>
+            </div>
+
+            <!-- Modal Body -->
+            <form id="formloja">
+                <div class="modal-body">
+                    <label>Nome</label>
+                    @Html.Editor("nome", null, new { htmlAttributes = new { @class = "form-control", placeholder = "Nome da Loja" } })
+                </div>
+            </form>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" id="submitloja" class="btn btn-primary">
+                    Adicionar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    var boxHeight = $('.modal-dialog').height();
+    var boxWidth = $('.modal-dialog').width();
+    $('.modal-dialog').css({ 'left': ((windowWidth - boxWidth - 800) / 2), 'top': ((windowHeight - boxHeight - 700) / 2) });
+</script>
+
+<script>
+
+ $(function() {
+
+     $("#submitloja").click(function () {
+	        $.ajax({
+    		type: "POST",
+		url: "/BackOffice/AddLoja",
+		data: $('#formloja').serialize(),
+		success: function (msg) {
+        	    $("#atualizarloja").html(msg);
+        	},
+        	error: function (xhr, httpStatusMessage, customErrorMessage) {
+        	    alert(customErrorMessage);
+        	}
+      		});
+	});
+ });
+</script>

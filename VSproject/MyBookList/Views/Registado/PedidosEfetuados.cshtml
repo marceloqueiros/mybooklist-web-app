@@ -1,0 +1,36 @@
+﻿@model IEnumerable<MyBookList.Models.Pede>
+
+<div class="container">
+
+
+</div>
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+            {
+                var imgName = "/Content/Imagens/Livros/" + @item.ID_Livro + ".jpg";
+
+            <tr class="js-shop__item">
+                <td style="width:80px">
+                    <img width="50" height="50" class="img-responsive shopping-cart-item__img" src="@imgName">
+                </td>
+                <td>
+                    <div>
+                        <p><b>@item.Livro.Titulo</b></p>
+                        <p>@item.Livro.Escreve.Autor.Nome</p>
+                    </div>
+                </td>
+                <td>
+                    <div style="align-content:center">
+                        <b>Pedido em:</b> @string.Format("{0:dd-MM-yyyy}", item.Data_Criacao)<br />
+                    </div>
+                </td>
+                <td>
+                    <div style="align-content:center">
+                        <a class="btn btn-primary" href="~/Registado/CancelarPedido/@item.ID_Livro">Cancelar Pedido</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

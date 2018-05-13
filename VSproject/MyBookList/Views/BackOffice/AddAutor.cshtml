@@ -1,0 +1,130 @@
+﻿
+
+@*@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Autor</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => "nome", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pseudonimo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Pseudonimo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Pseudonimo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Biografia, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Biografia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Biografia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+
+<style>
+    .modal-body .form-horizontal .col-sm-2,
+    .modal-body .form-horizontal .col-sm-10 {
+        width: 100%;
+    }
+
+    .modal-body .form-horizontal .control-label {
+        text-align: left;
+    }
+
+    .modal-body .form-horizontal .col-sm-offset-2 {
+        margin-left: 15px;
+    }
+</style>
+
+<div class="modal fade" id="myModalAutor" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">
+                    <strong>Adicionar Autor</strong>
+                </h4>
+            </div>
+
+            <!-- Modal Body -->
+            <form id="formautor">
+                <div class="modal-body">
+                    <label>Nome</label>
+                    @Html.Editor("nome", null, new { htmlAttributes = new { @class = "form-control", placeholder = "Nome do Autor" } })
+                    <br />
+                    <label>Pseudónimo</label>
+                    @Html.Editor("pseudonimo", null, new { htmlAttributes = new { @class = "form-control", placeholder = "Pseudónimo do Autor" } })
+                    <br />
+                    <label>Biografia</label>
+                    <textarea name="biografia" placeholder="Insira um texto descritivo da vida do Autor com um máximo de 1000 caracteres." rows="6" cols="400"></textarea>
+                </div>
+            </form>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" id="submitautor" class="btn btn-primary">
+                    Adicionar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    var boxHeight = $('.modal-dialog').height();
+    var boxWidth = $('.modal-dialog').width();
+    $('.modal-dialog').css({ 'left': ((windowWidth - boxWidth - 800) / 2), 'top': ((windowHeight - boxHeight - 700) / 2) });
+</script>
+
+<script>
+
+ $(function() {
+
+     $("#submitautor").click(function () {
+	        $.ajax({
+    		type: "POST",
+		url: "/BackOffice/AddAutor",
+		data: $('#formautor').serialize(),
+		success: function (msg) {
+        	    $("#categorias").html(msg);
+        	    $.ajax({
+        	        type: "POST",
+        	        url: "/BackOffice/atualizarautor",
+        	        success: function (msg) {
+        	            $("#atualizarautor").html(msg);
+        	        }
+        	    });
+        	},
+        	error: function (xhr, httpStatusMessage, customErrorMessage) {
+        	    alert(customErrorMessage);
+        	}
+      		});
+	});
+ });
+</script>

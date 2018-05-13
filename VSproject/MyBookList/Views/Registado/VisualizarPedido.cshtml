@@ -1,0 +1,165 @@
+﻿@model MyBookList.Models.Pede
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin-top: 10px;
+        }
+
+        ._tabs {
+            margin-top: 40px;
+        }
+
+        .tab-pane {
+            padding-top: 20px;
+            background-color: white;
+        }
+
+        .panel-body > ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .panel-body > ul > li {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+                .panel-body > ul > li > a {
+                    display: block;
+                    padding: 8px 0;
+                    font-weight: 600;
+                    font-size: 11px;
+                    color: #777777;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                }
+
+        .panel.panel-default {
+            border-top-width: 3px;
+        }
+
+        .panel {
+            box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+            border: 0;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        .thumb150 {
+            width: 150px !important;
+            height: 150px !important;
+        }
+
+        .thumb96 {
+            width: 96px !important;
+            height: 96px !important;
+        }
+
+        .thumb48 {
+            width: 48px !important;
+            height: 48px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.Partial("~/Views/Shared/menuRegistado.cshtml")
+            </div>
+            <div class="col-sm-8">
+                <h3>&nbsp;&nbsp;Pedido de Empréstimo:</h3><hr />
+                @{
+                    var imgName = "/Content/Imagens/Livros/" + Model.ID_Livro + ".jpg";
+
+                    var user = "/Content/Imagens/Users/" + Model.Utilizador.ID_Utilizador + ".png";
+                    var user1 = "/Content/Imagens/Users/" + Model.Utilizador.ID_Utilizador + ".jpg";
+                    var user2 = "/Content/Imagens/Users/" + Model.Utilizador.ID_Utilizador + ".jpeg";
+
+                    var usert = Server.MapPath("/Content/Imagens/Users/" + Model.Utilizador.ID_Utilizador + ".png");
+                    var user1t = Server.MapPath("/Content/Imagens/Users/" + Model.Utilizador.ID_Utilizador + ".jpg");
+                    var user2t = Server.MapPath("/Content/Imagens/Users/" + Model.Utilizador.ID_Utilizador + ".jpeg");
+
+                    if (System.IO.File.Exists(user1t)) { user = user1; }
+                    else
+                        if (System.IO.File.Exists(user2t)) { user = user2; }
+                    else
+                            if (!System.IO.File.Exists(usert)) { user = "/Content/Imagens/Users/defaultUser.png"; }
+                }
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <div class="pv-lg"><img class="img-responsive img-thumbnail" src="@imgName" alt="Contact"></div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default hidden-xs hidden-sm">
+                        <div class="panel-heading">
+                            <div class="panel-title text-center">Dados do Livro:</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="media">
+                                <div class="media-body pt-sm">
+                                    <div class="text-bold">
+                                        <p><strong>@Model.Livro.Titulo</strong></p>
+                                        <p>@Model.Livro.Escreve.Autor.Nome</p><br />
+                                        <p><strong>ISBN:</strong> @Model.Livro.ISBN</p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-md-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="user-profile__avatar shadow-effect text-center">
+                                <img class="img-responsive img-thumbnail thumb150" src="@user" alt="...">
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="panel panel-default hidden-xs hidden-sm">
+                        <div class="panel-heading">
+                            <div class="panel-title text-center">Dados do Utilizador:</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="media">
+                                <div class="media-body pt-sm">
+                                    <div class="text-bold">
+                                        <p><span class="glyphicon glyphicon-user"></span><strong>@Model.Utilizador.Username</strong></p>
+                                        <p><span class="glyphicon glyphicon-envelope"></span>&nbsp;@Model.Utilizador.ContactoEmail</p><br />
+                                        <p><span class="glyphicon glyphicon-phone"></span>&nbsp;@Model.Utilizador.ContactoTelefone</p>
+                                        <p>
+                                            <span class="glyphicon glyphicon-globe"></span>&nbsp;@Model.Utilizador.MoradaRua, N.º @Model.Utilizador.MoradaPorta<br />
+                                            &nbsp;&nbsp;&nbsp;&nbsp;@Model.Utilizador.MoradaCodigo_Postal, @Model.Utilizador.MoradaLocalidade
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            @using (Html.BeginForm("AceitarPedido", "Registado"))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input style="display:none" class="form-control" name="livro" value="@Model.ID_Livro">
+                                <input style="display:none" class="form-control" name="user" value="@Model.ID_Utilizador">
+                                <input style="display:none" class="form-control" name="data" value="@Model.Data_Criacao">
+                                <button class="btn btn-primary" type="submit">Emprestar</button> 
+                            }
+                            <br /><a class="btn btn-danger" href="~/Registado/Emprestimos">Voltar</a>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

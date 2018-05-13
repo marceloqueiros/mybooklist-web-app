@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MyBookList.Models.Empresta>
+
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var imgName = "/Content/Imagens/Users/" + @item.Utilizador1.ID_Utilizador + ".png";
+            var imgName1 = "/Content/Imagens/Users/" + @item.Utilizador1.ID_Utilizador + ".jpg";
+            var imgName2 = "/Content/Imagens/Users/" + @item.Utilizador1.ID_Utilizador + ".jpeg";
+
+            var imgNamet = Server.MapPath("/Content/Imagens/Users/" + @item.Utilizador1.ID_Utilizador + ".png");
+            var imgName1t = Server.MapPath("/Content/Imagens/Users/" + @item.Utilizador1.ID_Utilizador + ".jpg");
+            var imgName2t = Server.MapPath("/Content/Imagens/Users/" + @item.Utilizador1.ID_Utilizador + ".jpeg");
+
+            if (System.IO.File.Exists(imgName1t)) imgName = imgName1;
+            else
+                if (System.IO.File.Exists(imgName2t)) imgName = imgName2;
+                else
+                    if (!System.IO.File.Exists(imgNamet)) imgName = "/Content/Imagens/Users/defaultUser.png";
+
+        
+        <tr class="js-shop__item">
+            <td style="width:80px">
+                @item.Utilizador1.Username<br />
+                <img width="50" height="50" class="img-responsive shopping-cart-item__img" src="@imgName">
+            </td>
+            <td>
+                <div>
+                    <p><b>@item.Livro.Titulo</b></p>
+                    <p>@item.Livro.Escreve.Autor.Nome</p>
+                </div>
+            </td>
+            <td>
+                <div style="align-content:center">
+                    <b>Emprestado em:</b> @string.Format("{0:dd-MM-yyyy}", item.Data_Emprestimo)<br />
+                </div>
+            </td>
+            <td>
+                <div style="align-content:center">
+                    @using (Html.BeginForm("LivroDevolvido", "Registado"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input style="display:none" class="form-control" name="livro" value="@item.ID_Livro">
+                        <input style="display:none" class="form-control" name="user" value="@item.ID_UserRecebe">
+                        <input style="display:none" class="form-control" name="data" value="@item.Data_Emprestimo">
+                        <button style="width:100px" class="btn btn-primary" type="submit">Devolvido</button>
+                    }
+                    @*<buton style="width:100px;" typeof="button" class="btn btn-primary">Devolvido</buton>*@
+                </div>
+                <div style="align-content:center">
+                    @using (Html.BeginForm("Problemas", "Registado"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input style="display:none" class="form-control" name="livro" value="@item.ID_Livro">
+                        <input style="display:none" class="form-control" name="user" value="@item.ID_UserRecebe">
+                        <input style="display:none" class="form-control" name="data" value="@item.Data_Emprestimo">
+                        <button style="width:100px" class="btn btn-danger" type="submit">Problema</button>
+                    }
+                    @*<buton style="width:100px;" typeof="button" class="btn btn-danger">Problemas</buton>*@
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

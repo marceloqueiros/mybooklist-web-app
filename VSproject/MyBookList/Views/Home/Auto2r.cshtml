@@ -1,0 +1,86 @@
+﻿@model      IEnumerable<MyBookList.Models.Livro>
+@using PagedList.Mvc
+
+@{             __o = ViewBag.Nome;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/.../css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/.../jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/.../js/bootstrap.min.js"></script>
+    <title>Bootstrap Case</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        .livro {
+            float: left;
+            margin: 6px;
+            padding: 6px;
+            max-width: 200px;
+            height: 350px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-8">
+                <br />
+                <h2>@ViewBag.ImagemAutor</h2>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#Biblio">Bibliografia</a></li>
+                    <li><a data-toggle="tab" href="#Livros">Livros do Autor</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="Biblio" class="tab-pane fade in active">
+                        <br />
+                        <div class="col-md-8">
+                            <div class="thumbnail">
+                                <img src="@ViewBag.Biografia" style="width:100%">
+                            </div>
+                            <div class="caption">
+                                <h4>Biografia:</h4>
+                                <p align="left"><h5>@ViewBag.Biografia</h5></p>
+                                @if (ViewBag.Pseudonimo != null)
+                                {
+                                    <p align="left"><h4>Pseudonimo: </h4><h5>@ViewBag.Pseudonimo</h5></p>
+                                }
+                                <br />
+                            </div>
+                        </div>
+                    </div>@*-------------------------------------------------------------------------*@
+                    <div id="Livros" class="tab-pane fade">
+                        @foreach (var item in Model)
+                        {
+                            var imgName = "/Content/Imagens/Livros/" + item.ID_Livro + ".jpg";
+                            <div class="col-md-3">
+                                <div class="thumbnail">
+                                    <a href="~/Home/Livro/@item.ID_Livro">
+                                        <img width="174" height="270" src="@imgName" class="attachment-post-thumbnail size-post-thumbnail wp-post-image hoverZoomLink" alt="Ver detalhes Livro - Autor" style="width:100%">
+                                        <div class="caption">
+                                            <p><p align="center"><h8>@item.Titulo - @item.Escreve.Autor.Nome</h8></p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                        }
+                    </div>@*-------------------------------------------------------------------------*@
+                </div>
+            </div>
+            <div class="col-sm-2">
+                @Html.Partial("~/Views/Shared/CategoriasLado.cshtml")
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

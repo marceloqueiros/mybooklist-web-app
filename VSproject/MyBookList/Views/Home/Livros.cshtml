@@ -1,0 +1,74 @@
+﻿@model PagedList.IPagedList<MyBookList.Models.Livro>
+@using PagedList.Mvc
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .livro {
+            float: left;
+            margin: 6px;
+            padding: 6px;
+            max-width: 200px;
+            height: 350px;
+        }
+
+        .actionl {
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    @if (ViewBag.title != null)
+    {
+        <p style="font-weight: bold;font-size:large">@ViewBag.title</p>
+    }
+    else
+    {
+        <p style="font-weight: bold; font-size:large">Adicionados Recentemente:</p>
+    }
+
+    @foreach (var item in Model)
+    {
+        var imgName = "/Content/Imagens/Livros/" + @item.ID_Livro + ".jpg";
+        <div class="col-md-3">
+            <div class="thumbnail" style="padding-right:7px; padding-left:7px; padding-top:7px; height:330px;width:200px">
+                <a class="actionl" href="#" id="@item.ID_Livro">
+                    <img width="174" height="250" src="@imgName" class="attachment-post-thumbnail size-post-thumbnail wp-post-image hoverZoomLink" alt="Ver detalhes Livro - Autor" style="width:100%">
+                    <div class="caption">
+                        <p><p align="center">@item.Titulo - @item.Escreve.Autor.Nome</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+    <br />
+</body>
+</html>
+
+<script>
+    $('.actionl').click(function () {
+        $.ajax({
+            type: "Post",
+            url: "/Home/LivroAjax",
+            data: {
+                id: $(this).attr('id')
+            },
+            success: function (response) {
+                $('#livrotarget').html(response); // ATUALIZAR O TARGET
+            }
+        });
+    });
+</script>
+

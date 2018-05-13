@@ -1,0 +1,194 @@
+﻿@model IEnumerable<MyBookList.Models.Empresta>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+               body {
+            margin-top: 10px;
+        }
+
+        ._tabs {
+            margin-top: 40px;
+        }
+
+        .tab-pane {
+            padding-top: 20px;
+            background-color: white;
+        }
+
+        .panel-body > ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .panel-body > ul > li {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+                .panel-body > ul > li > a {
+                    display: block;
+                    padding: 8px 0;
+                    font-weight: 600;
+                    font-size: 11px;
+                    color: #777777;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                }
+
+        /*css butao redondo*/
+        .btn-round {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+            .btn-round.btn-xs {
+                width: 24px;
+                height: 24px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.Partial("~/Views/Shared/menuRegistado.cshtml")
+            </div>
+            <div class="col-sm-8">
+                <h3>Empréstimos</h3>
+                <div class="_tabs">
+                    <!-- Nav tabs -->
+                    <ul id="tabs" class="nav nav-tabs" role="tablist">
+                        <li id="1" role="presentation" class="active">
+                            <a href="#decorrer" aria-controls="decorrer" role="tab" data-toggle="tab" aria-expanded="true">A Decorrer</a>
+                        </li>
+                        <li id="2" role="presentation" class="">
+                            <a href="#terminados" aria-controls="terminados" role="tab" data-toggle="tab" aria-expanded="false">Terminados</a>
+                        </li>
+                        <li id="3" role="presentation" class="">
+                            <a href="#efetuados" aria-controls="efetuados" role="tab" data-toggle="tab" aria-expanded="false">Pedidos Efetuados</a>
+                        </li>
+                        <li id="4" role="presentation" class="">
+                            <a href="#recebidos" aria-controls="recebidos" role="tab" data-toggle="tab" aria-expanded="false">Pedidos Recebidos</a>
+                        </li>
+                        <li id="5" role="presentation" class="">
+                            <a href="#emprestados" aria-controls="emprestados" role="tab" data-toggle="tab" aria-expanded="false">Livros Emprestados</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="decorrer">
+                            <div class="table-responsive">
+                                <div id="emprestimosDecorrer">
+                                    @Html.Partial("EmprestimosDecorrer", Model)
+                                </div>
+                            </div> <!-- / .table-responsive -->
+                        </div> <!-- / .tab-pane -->
+
+
+                        <div role="tabpanel" class="tab-pane fade" id="terminados">
+                            <div class="table-responsive">
+                                <div id="emprestimosTerminados">
+                                    
+                                </div>
+                            </div> <!-- / .table-responsive -->
+                        </div> <!-- / .tab-pane -->
+
+                        <div role="tabpanel" class="tab-pane fade" id="efetuados">
+                            <div class="table-responsive">
+                                <div id="pedidosEfetuados">
+                                    
+                                </div>
+                            </div> <!-- / .table-responsive -->
+                        </div> <!-- / .tab-pane -->
+                        
+                        <div role="tabpanel" class="tab-pane fade" id="recebidos">
+                            <div class="table-responsive">
+                                <div id="pedidosRecebidos">
+                                    
+                                </div>
+                            </div> <!-- / .table-responsive -->
+                        </div> <!-- / .tab-pane -->
+
+                        <div role="tabpanel" class="tab-pane fade" id="emprestados">
+                            <div class="table-responsive">
+                                <div id="livrosEmprestados">
+                                    
+                                </div>
+                            </div> <!-- / .table-responsive -->
+                        </div> <!-- / .tab-pane -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        $("#1").click(function (event) {
+            var ajaxUrl = "/Registado/EmprestimosDecorrer";
+            $.ajax({
+                type: "Post",
+                url: ajaxUrl,
+                success: function (response) {
+                    $('#emprestimosDecorrer').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+
+        $("#2").click(function (event) {
+            var ajaxUrl = "/Registado/EmprestimosTerminados";
+            $.ajax({
+                type: "Post",
+                url: ajaxUrl,
+                success: function (response) {
+                    $('#emprestimosTerminados').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+
+        $("#3").click(function (event) {
+            var ajaxUrl = "/Registado/PedidosEfetuados";
+            $.ajax({
+                type: "Post",
+                url: ajaxUrl,
+                success: function (response) {
+                    $('#pedidosEfetuados').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+
+        $("#4").click(function (event) {
+            var ajaxUrl = "/Registado/PedidosRecebidos";
+            $.ajax({
+                type: "Post",
+                url: ajaxUrl,
+                success: function (response) {
+                    $('#pedidosRecebidos').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+
+        $("#5").click(function (event) {
+            var ajaxUrl = "/Registado/LivrosEmprestados";
+            $.ajax({
+                type: "Post",
+                url: ajaxUrl,
+                success: function (response) {
+                    $('#livrosEmprestados').html(response); // ATUALIZAR O TARGET
+                }
+            });
+        });
+
+    });
+</script>

@@ -1,0 +1,12 @@
+﻿<style>
+    .guardar {
+    }
+</style>
+
+@using (Ajax.BeginForm("Gloja", new AjaxOptions { UpdateTargetId = @ViewBag.id, InsertionMode = InsertionMode.Replace }))
+{
+    @Html.Hidden("id");
+    <input type="text" name="nome" value="@ViewBag.valor" />
+    <input type="submit" value="Guardar" />
+    @Html.ValidationMessage("nome")
+}

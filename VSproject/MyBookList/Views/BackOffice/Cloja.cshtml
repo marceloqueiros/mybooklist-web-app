@@ -1,0 +1,36 @@
+﻿<h2><strong>Novo Loja</strong></h2>
+<hr />
+
+@if (TempData["Addloja"] != null)
+{
+    <p style="font-weight: bold; color:green;">@TempData["Addloja"]</p>
+}
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="col-sm-1">
+</div>
+<div class="col-sm-5">
+    @Html.Partial("~/Views/BackOffice/imagemLoja.cshtml")
+</div>
+@*<form id="formb" class="form-horizontal">*@
+@using (Ajax.BeginForm("CreateStoreInfo", new AjaxOptions { UpdateTargetId = "partial", HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+{
+    <div class="row">
+        <div class="col-sm-6">
+            <div>
+                <label>Nome:</label>
+            </div>
+            <div>
+                <input typeof="textbox" name="nome" placeholder="Nome da Loja" required />
+            </div>
+            <br />
+            <div class="col-md-offset-2 col-md-10">
+                <strong><input type="submit" value="Criar Loja" class="btn btn-primary" /></strong>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
